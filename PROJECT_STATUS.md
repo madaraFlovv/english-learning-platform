@@ -58,8 +58,8 @@ Last reviewed against GitHub branch: `frontend`.
 ## Known limitations / things to verify
 
 1. Learning pages read roadmap data directly, while ExercisePage reads the combined aggregator. Keep this distinction in mind.
-2. The exercise result is only held in component state and disappears when leaving/reloading the page.
-3. Mock progress is static and is not updated when a learner completes an exercise.
+2. Progress updates are held in React Context memory and disappear after a browser reload.
+3. Exercise completion updates the shared progress state; no server or database is involved.
 4. Lesson content and exercise coverage are incomplete across the curriculum.
 5. Login/register forms are not connected to a real authentication service.
 6. AI and Account routes render a generic placeholder.
