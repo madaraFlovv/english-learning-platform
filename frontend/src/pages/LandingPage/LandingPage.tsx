@@ -278,7 +278,7 @@ const LandingPage = () => {
               <Link
                 key={topic.id}
                 to={`/topic/${topic.id}`}
-                className={`topic-card ${topic.status}-topic`}
+                className={`${styles["topic-card"]} ${styles[`${topic.status}-topic`]}`}
                 style={{
                   color: "inherit",
                   textDecoration: "none",
@@ -294,7 +294,7 @@ const LandingPage = () => {
 
       <footer className={styles["roadmap-footer"]}>
         <span>Consistency matters more than perfection.</span>
-        <span>ENGLISH PATH</span>
+        <span>ENGLISHLY</span>
       </footer>
     </div>
   );
