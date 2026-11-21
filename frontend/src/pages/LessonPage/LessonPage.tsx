@@ -1,4 +1,4 @@
-import "./LessonPage.css";
+import styles from "./LessonPage.module.css";
 
 import { Link, useParams } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const LessonPage = () => {
 
   if (!lesson) {
     return (
-      <div className="lesson-page">
+      <div className={styles["lesson-page"]}>
         <h1>Lesson not found</h1>
         <p>This lesson does not exist.</p>
         <Link to="/">Back to roadmap</Link>
@@ -33,17 +33,17 @@ const LessonPage = () => {
   );
 
   return (
-    <div className="lesson-page">
+    <div className={styles["lesson-page"]}>
       <Link
         to={topic ? `/topic/${topic.id}` : "/"}
-        className="lesson-back-link"
+        className={styles["lesson-back-link"]}
       >
         ← Back to {topic ? topic.title : "roadmap"}
       </Link>
 
-      <header className="lesson-header">
-        <div className="lesson-header-info">
-          <span className="section-eyebrow">
+      <header className={styles["lesson-header"]}>
+        <div className={styles["lesson-header-info"]}>
+          <span className={styles["section-eyebrow"]}>
             {level ? `${level.code} ${level.title.toUpperCase()}` : "LESSON"}
             {" · "}
             {topic?.title.toUpperCase() ?? "ENGLISH"}
@@ -54,20 +54,20 @@ const LessonPage = () => {
           <p>{lesson.description}</p>
         </div>
 
-        <div className="lesson-header-badge">
+        <div className={styles["lesson-header-badge"]}>
           <span>{String(lesson.order).padStart(2, "0")}</span>
           <small>LESSON</small>
         </div>
       </header>
 
       {content.length > 0 ? (
-        <div className="lesson-content">
-          <main className="lesson-main">
+        <div className={styles["lesson-content"]}>
+          <main className={styles["lesson-main"]}>
             {content.map((block, index) => {
               if (block.type === "heading") {
                 return (
-                  <section className="lesson-block" key={index}>
-                    <span className="section-eyebrow">
+                  <section className={styles["lesson-block"]} key={index}>
+                    <span className={styles["section-eyebrow"]}>
                       SECTION {String(index + 1).padStart(2, "0")}
                     </span>
 
@@ -78,7 +78,7 @@ const LessonPage = () => {
 
               if (block.type === "paragraph") {
                 return (
-                  <section className="lesson-block" key={index}>
+                  <section className={styles["lesson-block"]} key={index}>
                     <p>{block.text}</p>
                   </section>
                 );
@@ -86,8 +86,8 @@ const LessonPage = () => {
 
               if (block.type === "rule") {
                 return (
-                  <section className="lesson-block" key={index}>
-                    <span className="section-eyebrow">GRAMMAR RULE</span>
+                  <section className={styles["lesson-block"]} key={index}>
+                    <span className={styles["section-eyebrow"]}>GRAMMAR RULE</span>
 
                     <h2>{block.title}</h2>
 
@@ -98,15 +98,15 @@ const LessonPage = () => {
 
               if (block.type === "example") {
                 return (
-                  <section className="lesson-example" key={index}>
-                    <span className="example-label">EXAMPLE</span>
+                  <section className={styles["lesson-example"]} key={index}>
+                    <span className={styles["example-label"]}>EXAMPLE</span>
 
                     <h3>{block.english}</h3>
 
                     {block.translation && <p>{block.translation}</p>}
 
                     {block.note && (
-                      <span className="lesson-example-note">{block.note}</span>
+                      <span className={styles["lesson-example-note"]}>{block.note}</span>
                     )}
                   </section>
                 );
@@ -116,31 +116,31 @@ const LessonPage = () => {
             })}
           </main>
 
-          <aside className="lesson-sidebar">
-            <div className="lesson-sidebar-card">
-              <span className="section-eyebrow">LESSON OVERVIEW</span>
+          <aside className={styles["lesson-sidebar"]}>
+            <div className={styles["lesson-sidebar-card"]}>
+              <span className={styles["section-eyebrow"]}>LESSON OVERVIEW</span>
 
               <h3>{lesson.title}</h3>
 
               {sidebarItems.map((block, index) => (
-                <div className="lesson-sidebar-item" key={index}>
+                <div className={styles["lesson-sidebar-item"]} key={index}>
                   <span>{String(index + 1).padStart(2, "0")}</span>
 
                   {block.type === "heading" ? block.text : block.title}
                 </div>
               ))}
 
-              <div className="lesson-sidebar-divider" />
+              <div className={styles["lesson-sidebar-divider"]} />
 
-              <span className="lesson-duration">
+              <span className={styles["lesson-duration"]}>
                 Estimated time: {lesson.estimatedMinutes} min
               </span>
             </div>
           </aside>
         </div>
       ) : (
-        <div className="lesson-empty-state">
-          <span className="section-eyebrow">COMING SOON</span>
+        <div className={styles["lesson-empty-state"]}>
+          <span className={styles["section-eyebrow"]}>COMING SOON</span>
 
           <h2>Learning material is being prepared</h2>
 
@@ -151,16 +151,16 @@ const LessonPage = () => {
         </div>
       )}
 
-      <footer className="lesson-footer">
+      <footer className={styles["lesson-footer"]}>
         <div>
-          <span className="section-eyebrow">READY TO PRACTICE?</span>
+          <span className={styles["section-eyebrow"]}>READY TO PRACTICE?</span>
 
           <h2>Test your knowledge</h2>
 
           <p>Complete a few exercises to reinforce what you have learned.</p>
         </div>
 
-        <Link to={`/exercise/${lesson.id}`} className="lesson-start-button">
+        <Link to={`/exercise/${lesson.id}`} className={styles["lesson-start-button"]}>
           Start exercises
           <span>→</span>
         </Link>
