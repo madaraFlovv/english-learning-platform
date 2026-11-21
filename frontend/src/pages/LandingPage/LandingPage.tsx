@@ -232,7 +232,7 @@ const LandingPage = () => {
                   <div className={styles["topic-title-row"]}>
                     <h3>{topic.title}</h3>
 
-                    <span className={`${styles["topic-status"]} ${styles[`${topic.status}-status`]}`}>
+                    <span className={`${styles["topic-status"]} ${(styles[`${topic.status}-status`] ?? "")}`}>
                       {topic.status === "completed" && "Completed"}
                       {topic.status === "in-progress" && "In progress"}
                       {topic.status === "available" && "Available"}
@@ -270,7 +270,7 @@ const LandingPage = () => {
             return topic.status === "locked" ? (
               <article
                 key={topic.id}
-                className={`${styles["topic-card"]} ${styles[`${topic.status}-topic`]}`}
+                className={`${styles["topic-card"]} ${(styles[`${topic.status}-topic`] ?? "")}`}
               >
                 {cardContent}
               </article>
