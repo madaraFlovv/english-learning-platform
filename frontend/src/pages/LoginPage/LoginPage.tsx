@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import styles from "../AuthPage.module.css";
 import { useState } from "react";
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
@@ -7,12 +8,12 @@ const LoginPage = () => {
     e.preventDefault();
   };
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h1 className="auth-title">Log In to Your Account</h1>
-        <form className="auth-form" onSubmit={handleSubmit}>
+    <div className={styles["auth-page"]}>
+      <div className={styles["auth-card"]}>
+        <h1 className={styles["auth-title"]}>Log In to Your Account</h1>
+        <form className={styles["auth-form"]} onSubmit={handleSubmit}>
           <input
-            className="auth-input"
+            className={styles["auth-input"]}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -21,7 +22,7 @@ const LoginPage = () => {
             required
           />
           <input
-            className="auth-input"
+            className={styles["auth-input"]}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -29,13 +30,13 @@ const LoginPage = () => {
             placeholder="Password"
             required
           />
-          <button className="auth-button" type="submit">
+          <button className={styles["auth-button"]} type="submit">
             Log In
           </button>
         </form>
-        <div className="auth-footer">
+        <div className={styles["auth-footer"]}>
           <p>Don't have an account?</p>
-          <Link className="auth-link" to={"/register"}>
+          <Link className={styles["auth-link"]} to={"/register"}>
             Create an account
           </Link>
         </div>
