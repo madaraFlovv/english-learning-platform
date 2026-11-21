@@ -34,7 +34,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 | Login | UI only | No authentication |
 | Account | Placeholder | No profile or statistics UI |
 | AI Tutor | Placeholder | No AI provider integration |
-| Placement test | Not implemented | No onboarding or level assessment |
+| Placement test | Initial frontend version implemented | 20 questions across A1–C1; deterministic level estimate; result updates in-memory starting level |
 | Backend API | Not implemented | No server application in repository |
 | Database | Not implemented | No schema or migrations |
 | Persistent progress | Not implemented | Progress exists in React memory only and resets on reload |
@@ -46,6 +46,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 - `/topic/:topicId`
 - `/lesson/:lessonId`
 - `/exercise/:lessonId`
+- `/placement-test`
 - `/ai`
 - `/account`
 - `/login`
@@ -63,6 +64,9 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 - `frontend/src/data/exercises/lessons/lessonContent.ts` — lesson content.
 - `frontend/src/data/exercises/lessons/presentSimple.ts` — 8 Present Simple questions.
 - `frontend/src/pages/ExercisePage/ExercisePage.tsx` — exercise flow.
+- `frontend/src/pages/PlacementTestPage/PlacementTestPage.tsx` — placement test and result flow.
+- `frontend/src/data/placementQuestions.ts` — initial 20-question A1–C1 bank.
+- `frontend/src/services/placementService.ts` — deterministic placement scoring.
 - `frontend/src/services/authService.ts` — registration placeholder.
 
 ## Known limitations / things to verify
@@ -78,10 +82,10 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 
 ## Next recommended milestone
 
-1. Pull the current `frontend` branch and verify the visual redesign in the local browser.
-2. Check light/dark themes on every route, especially Exercise feedback, inputs, cards and auth pages.
-3. Check responsive layouts at desktop, tablet and mobile widths; fix any visual regressions.
-4. Finish the Englishly brand identity and snake-inspired logo.
-5. After visual verification, review data organization and remove unnecessary hardcoding or duplication.
-6. Evaluate libraries such as Zustand, TanStack Query, React Hook Form, Zod or Lucide only when a concrete need justifies them; none of these are currently installed.
-7. Add automated tests for progress update rules and answer checking when the core behavior is stable.
+1. Verify the Placement Test end-to-end in the local browser, including all 20 questions and result levels.
+2. Run `npm run build` and `npm run lint` from `frontend/`; fix any issues found.
+3. Add automated tests for the placement scoring thresholds and answer normalization.
+4. Refine the question bank after checking its educational accuracy and difficulty.
+5. Build the onboarding handoff around registration and placement results.
+6. Continue expanding A1 lesson content, with explanations in Russian and English examples with translations.
+7. Add subtle animations only after the core learning flow is stable.
