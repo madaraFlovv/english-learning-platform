@@ -1,170 +1,166 @@
-import { Link } from "react-router-dom";
 import "./LessonPage.css";
 
+import { Link, useParams } from "react-router-dom";
+
+import { learningData } from "../../data/roadmap";
+import { lessonContent } from "../../data/exercises/lessons/lessonContent";
+
 const LessonPage = () => {
+  const { lessonId } = useParams();
+
+  const lesson = learningData.lessons.find((item) => item.id === lessonId);
+
+  if (!lesson) {
+    return (
+      <div className="lesson-page">
+        <h1>Lesson not found</h1>
+        <p>This lesson does not exist.</p>
+        <Link to="/">Back to roadmap</Link>
+      </div>
+    );
+  }
+
+  const topic = learningData.topics.find((item) => item.id === lesson.topicId);
+
+  const level = topic
+    ? learningData.levels.find((item) => item.id === topic.levelId)
+    : undefined;
+
+  const content = lessonContent[lesson.id] ?? [];
+
+  const sidebarItems = content.filter(
+    (block) => block.type === "heading" || block.type === "rule",
+  );
+
   return (
     <div className="lesson-page">
-      <Link to="/" className="lesson-back-link">
-        ← Back to roadmap
+      <Link
+        to={topic ? `/topic/${topic.id}` : "/"}
+        className="lesson-back-link"
+      >
+        ← Back to {topic ? topic.title : "roadmap"}
       </Link>
 
       <header className="lesson-header">
         <div className="lesson-header-info">
-          <span className="section-eyebrow">A1 BEGINNER · GRAMMAR</span>
+          <span className="section-eyebrow">
+            {level ? `${level.code} ${level.title.toUpperCase()}` : "LESSON"}
+            {" · "}
+            {topic?.title.toUpperCase() ?? "ENGLISH"}
+          </span>
 
-          <h1>Present Simple</h1>
+          <h1>{lesson.title}</h1>
 
-          <p>
-            Learn how to describe daily routines, habits and facts using the
-            Present Simple tense.
-          </p>
+          <p>{lesson.description}</p>
         </div>
 
         <div className="lesson-header-badge">
-          <span>01</span>
+          <span>{String(lesson.order).padStart(2, "0")}</span>
           <small>LESSON</small>
         </div>
       </header>
 
-      <div className="lesson-content">
-        <main className="lesson-main">
-          <section className="lesson-block">
-            <span className="section-eyebrow">INTRODUCTION</span>
+      {content.length > 0 ? (
+        <div className="lesson-content">
+          <main className="lesson-main">
+            {content.map((block, index) => {
+              if (block.type === "heading") {
+                return (
+                  <section className="lesson-block" key={index}>
+                    <span className="section-eyebrow">
+                      SECTION {String(index + 1).padStart(2, "0")}
+                    </span>
 
-            <h2>What is Present Simple?</h2>
+                    <h2>{block.text}</h2>
+                  </section>
+                );
+              }
 
-            <p>
-              We use Present Simple to talk about things that happen regularly,
-              daily routines and facts that are generally true.
-            </p>
+              if (block.type === "paragraph") {
+                return (
+                  <section className="lesson-block" key={index}>
+                    <p>{block.text}</p>
+                  </section>
+                );
+              }
 
-            <div className="lesson-example">
-              <span className="example-label">EXAMPLE</span>
-              <h3>I study English every day.</h3>
-              <p>Я изучаю английский каждый день.</p>
-            </div>
-          </section>
+              if (block.type === "rule") {
+                return (
+                  <section className="lesson-block" key={index}>
+                    <span className="section-eyebrow">GRAMMAR RULE</span>
 
-          <section className="lesson-block">
-            <span className="section-eyebrow">GRAMMAR RULE</span>
+                    <h2>{block.title}</h2>
 
-            <h2>How to form a sentence</h2>
+                    <p>{block.description}</p>
+                  </section>
+                );
+              }
 
-            <p>
-              In most cases, we use the base form of the verb. With he, she and
-              it, we add -s or -es.
-            </p>
+              if (block.type === "example") {
+                return (
+                  <section className="lesson-example" key={index}>
+                    <span className="example-label">EXAMPLE</span>
 
-            <div className="grammar-table">
-              <div className="grammar-row grammar-heading">
-                <span>Subject</span>
-                <span>Verb</span>
-                <span>Example</span>
-              </div>
+                    <h3>{block.english}</h3>
 
-              <div className="grammar-row">
-                <span>I / You / We / They</span>
-                <span>work</span>
-                <span>I work every day.</span>
-              </div>
+                    {block.translation && <p>{block.translation}</p>}
 
-              <div className="grammar-row">
-                <span>He / She / It</span>
-                <span>works</span>
-                <span>She works every day.</span>
-              </div>
-            </div>
-          </section>
+                    {block.note && (
+                      <span className="lesson-example-note">{block.note}</span>
+                    )}
+                  </section>
+                );
+              }
 
-          <section className="lesson-block">
-            <span className="section-eyebrow">EXAMPLES</span>
+              return null;
+            })}
+          </main>
 
-            <h2>See it in context</h2>
+          <aside className="lesson-sidebar">
+            <div className="lesson-sidebar-card">
+              <span className="section-eyebrow">LESSON OVERVIEW</span>
 
-            <div className="lesson-examples-list">
-              <div className="lesson-example-item">
-                <div>
-                  <h3>She likes coffee.</h3>
-                  <p>Она любит кофе.</p>
+              <h3>{lesson.title}</h3>
+
+              {sidebarItems.map((block, index) => (
+                <div className="lesson-sidebar-item" key={index}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+
+                  {block.type === "heading" ? block.text : block.title}
                 </div>
-                <span>01</span>
-              </div>
+              ))}
 
-              <div className="lesson-example-item">
-                <div>
-                  <h3>They play football on Sundays.</h3>
-                  <p>Они играют в футбол по воскресеньям.</p>
-                </div>
-                <span>02</span>
-              </div>
+              <div className="lesson-sidebar-divider" />
 
-              <div className="lesson-example-item">
-                <div>
-                  <h3>The sun rises in the east.</h3>
-                  <p>Солнце встаёт на востоке.</p>
-                </div>
-                <span>03</span>
-              </div>
+              <span className="lesson-duration">
+                Estimated time: {lesson.estimatedMinutes} min
+              </span>
             </div>
-          </section>
+          </aside>
+        </div>
+      ) : (
+        <div className="lesson-empty-state">
+          <span className="section-eyebrow">COMING SOON</span>
 
-          <section className="lesson-tip">
-            <span className="section-eyebrow">COMMON MISTAKE</span>
+          <h2>Learning material is being prepared</h2>
 
-            <h3>Don't forget the -s ending!</h3>
-
-            <p>Incorrect: She work every day.</p>
-
-            <p>Correct: She works every day.</p>
-
-            <span>
-              Remember: he, she and it require -s or -es in affirmative
-              sentences.
-            </span>
-          </section>
-        </main>
-
-        <aside className="lesson-sidebar">
-          <div className="lesson-sidebar-card">
-            <span className="section-eyebrow">LESSON OVERVIEW</span>
-
-            <h3>Present Simple</h3>
-
-            <div className="lesson-sidebar-item">
-              <span>01</span>
-              Introduction
-            </div>
-
-            <div className="lesson-sidebar-item">
-              <span>02</span>
-              Grammar rule
-            </div>
-
-            <div className="lesson-sidebar-item">
-              <span>03</span>
-              Examples
-            </div>
-
-            <div className="lesson-sidebar-item">
-              <span>04</span>
-              Practice
-            </div>
-
-            <div className="lesson-sidebar-divider" />
-
-            <span className="lesson-duration">Estimated time: 10–15 min</span>
-          </div>
-        </aside>
-      </div>
+          <p>
+            This lesson is already part of your learning roadmap. Its
+            explanation and examples will be added soon.
+          </p>
+        </div>
+      )}
 
       <footer className="lesson-footer">
         <div>
           <span className="section-eyebrow">READY TO PRACTICE?</span>
+
           <h2>Test your knowledge</h2>
+
           <p>Complete a few exercises to reinforce what you have learned.</p>
         </div>
 
-        <Link to="/exercise/present-simple" className="lesson-start-button">
+        <Link to={`/exercise/${lesson.id}`} className="lesson-start-button">
           Start exercises
           <span>→</span>
         </Link>
