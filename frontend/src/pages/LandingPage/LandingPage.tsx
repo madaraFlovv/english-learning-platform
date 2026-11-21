@@ -3,9 +3,10 @@ import "./LandingPage.css";
 import { Link } from "react-router-dom";
 
 import { learningData } from "../../data/roadmap";
-import { mockProgress } from "../../data/mockProgress";
+import { useProgress } from "../../context/ProgressContext";
 
 const LandingPage = () => {
+  const { progress: mockProgress } = useProgress();
   const currentLevel = learningData.levels.find(
     (level) => level.id === mockProgress.currentLevelId,
   );
