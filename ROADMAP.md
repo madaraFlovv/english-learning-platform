@@ -29,8 +29,10 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 - [ ] Complete A1 learning content to a consistent quality level
 - [ ] Add exercises for lessons incrementally
 - [ ] Build onboarding flow
-- [ ] Build Placement Test with a transparent, deterministic scoring model
-- [ ] Show placement result and set the starting level
+- [x] Build initial Placement Test with 20 A1–C1 questions and deterministic scoring
+- [x] Show placement result and set the in-memory starting level
+- [ ] Expand and validate the question bank; add automated scoring tests
+- [ ] Build registration → onboarding → placement → roadmap flow
 - [ ] Add empty, loading and error states where relevant
 - [ ] Review responsive layout and accessibility
 
@@ -77,11 +79,11 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 
 ## Current next step
 
-Stabilize and improve the existing frontend prototype before adding new infrastructure:
-1. Audit the current application flows and fix reproducible bugs.
-2. Redesign and standardize CSS: global design tokens, typography, spacing, shared UI patterns, page styles and responsive behavior.
-3. Review data access and reduce avoidable duplication/hardcoding without changing curriculum IDs or breaking the existing learning flow.
-4. Evaluate additional libraries only where they simplify a real problem and are appropriate for the current project size.
-5. Add automated tests for progress update rules and answer checking.
+1. Verify the new Placement Test in the browser and run the production build and lint checks.
+2. Add automated tests for the deterministic placement scoring service.
+3. Improve question quality and coverage, then add more skill types only when there is suitable content.
+4. Build onboarding so a new user completes registration, takes the placement test and lands on the recommended Roadmap level.
+5. Expand A1 learning content with Russian explanations and English examples plus translations.
+6. Revisit subtle UI animation and typewriter effects after the core learning flow is stable.
 
-The mock progress loop is already implemented in React Context and updates Roadmap/Topic UI, but it is in-memory only. Do not start backend or AI integration before the frontend flow and requirements are clear.
+The placement result currently updates mock progress in React Context only. It resets on reload and will later need to be associated with the authenticated user on the backend.
