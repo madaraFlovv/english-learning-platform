@@ -17,10 +17,11 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 - [x] Lesson page
 - [x] Dynamic exercise page
 - [ ] Review and standardize data access
-- [ ] Add a mock progress service/store with a clear API
-- [ ] Update progress after exercise completion
-- [ ] Show updated progress on Roadmap and Topic pages
-- [ ] Define retry and best-score behavior
+- [x] Add a mock progress service with a clear API
+- [x] Update progress after exercise completion
+- [x] Show updated progress on Roadmap and Topic pages
+- [x] Define retry and best-score behavior
+- [ ] Add automated tests for progress update rules
 - [ ] Add basic automated tests for progress and answer-checking logic
 
 ## Phase 2 — Learning content and user flow
