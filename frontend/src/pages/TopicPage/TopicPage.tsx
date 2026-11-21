@@ -3,9 +3,10 @@ import "./TopicPage.css";
 import { Link, useParams } from "react-router-dom";
 
 import { learningData } from "../../data/roadmap";
-import { mockProgress } from "../../data/mockProgress";
+import { useProgress } from "../../context/ProgressContext";
 
 const TopicPage = () => {
+  const { progress: mockProgress } = useProgress();
   const { topicId } = useParams();
 
   const topic = learningData.topics.find((item) => item.id === topicId);
