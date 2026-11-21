@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import styles from "../AuthPage.module.css";
-import styles from "../AuthPage.module.css";
 import { useState } from "react";
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
