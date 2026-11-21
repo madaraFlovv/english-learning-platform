@@ -1,6 +1,6 @@
 # Project Status
 
-Last reviewed against GitHub branch: `frontend`.
+Last reviewed against GitHub branch: `frontend` (2026-11-21).
 
 ## Overall status
 
@@ -68,9 +68,10 @@ Last reviewed against GitHub branch: `frontend`.
 
 ## Next recommended milestone
 
-Finish a coherent frontend learning loop using mock data:
-1. Ensure the exercise flow has clear completion and retry behavior.
-2. Connect exercise completion to a small, well-defined mock progress layer (without pretending it is persistent or server-backed).
-3. Reflect updated lesson status and best score on Topic and Roadmap pages.
-4. Add exercises and lesson content incrementally, beginning with the remaining Present Simple lessons.
-5. Add tests when the core data/progress logic becomes stable.
+Stabilize and improve the existing frontend prototype:
+1. Audit the current user flows and fix reproducible bugs without changing working behavior unnecessarily.
+2. Review the CSS structure and redesign the visual system consistently across global styles, layout and pages.
+3. Keep responsive behavior and accessibility in scope during the CSS work.
+4. After the visual pass, review data organization and remove unnecessary hardcoding or duplication.
+5. Evaluate libraries such as Zustand, TanStack Query, React Hook Form, Zod or Lucide only when a concrete need justifies them; none of these are currently installed.
+6. Add automated tests for progress update rules and answer checking when the core behavior is stable.
