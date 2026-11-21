@@ -24,6 +24,7 @@ React application (frontend/src)
   |     |     +-- TopicPage
   |     |     +-- LessonPage
   |     |     +-- ExercisePage
+      |     +-- PlacementTestPage
   |     |     +-- AI placeholder
   |     |     +-- Account placeholder
   |     |
@@ -54,6 +55,7 @@ Static application content and prototype data:
 - `learningData.ts`: aggregate data source for the exercise flow.
 - `mockProgress.ts`: sample user progress.
 - `exercises/lessons/`: lesson content and lesson-specific exercise data.
+- `placementQuestions.ts`: fixed, typed question bank for the initial level assessment.
 
 ### `types/`
 Shared domain types. These define the shape of levels, topics, lessons, exercises, user progress and profile.
@@ -77,6 +79,9 @@ Level
 
 UserProgress
   └── LessonProgress (LessonProgress.lessonId -> Lesson.id)
+
+PlacementTestQuestion
+  └── PlacementTestResult (estimated CEFR level + per-level score breakdown)
 ```
 
 IDs are important references. Do not casually rename them because roadmap, lesson content, exercise questions and progress all refer to them.
@@ -88,6 +93,14 @@ IDs are important references. Do not casually rename them because roadmap, lesso
 2. It reads the current `UserProgress` through `useProgress()` from `ProgressContext`.
 3. It selects the current level/topic/lessons using IDs.
 4. It calculates display progress from the shared in-memory lesson statuses.
+
+### Placement test
+1. `PlacementTestPage` reads the static question bank from `data/placementQuestions.ts`.
+2. Answers are kept in local component state for the duration of the test.
+3. `placementService.ts` normalizes answers and calculates correct answers per CEFR band.
+4. A band is passed when at least 75% of its questions are correct; the estimated level is the highest consecutive passed band starting at A1.
+5. The page calls `setCurrentLevel` from `ProgressContext` and displays the level plus per-band results.
+6. This is only an indicative grammar/vocabulary placement estimate. It is not persisted and does not constitute official CEFR certification.
 
 ### Lesson page
 1. Reads `lessonId` from the route.
