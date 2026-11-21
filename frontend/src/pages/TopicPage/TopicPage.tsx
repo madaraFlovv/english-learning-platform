@@ -109,7 +109,7 @@ const TopicPage = () => {
                 <Link
                   key={lesson.id}
                   to={`/lesson/${lesson.id}`}
-                  className={`${styles["topic-lesson-card"]} ${styles[`${status}-lesson`]}`}
+                  className={`${styles["topic-lesson-card"]} ${(styles[`${status}-lesson`] ?? "")}`}
                 >
                   <div className={styles["topic-lesson-number"]}>
                     {String(index + 1).padStart(2, "0")}
