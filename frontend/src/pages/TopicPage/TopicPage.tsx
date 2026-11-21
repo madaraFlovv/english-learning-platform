@@ -1,4 +1,4 @@
-import "./TopicPage.css";
+import styles from "./TopicPage.module.css";
 
 import { Link, useParams } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const TopicPage = () => {
 
   if (!topic) {
     return (
-      <div className="topic-page">
+      <div className={styles["topic-page"]}>
         <h1>Topic not found</h1>
         <p>This topic does not exist.</p>
         <Link to="/">Back to roadmap</Link>
@@ -45,15 +45,15 @@ const TopicPage = () => {
       : 0;
 
   return (
-    <div className="topic-page">
-      <Link to="/" className="topic-back-link">
+    <div className={styles["topic-page"]}>
+      <Link to="/" className={styles["topic-back-link"]}>
         <span aria-hidden="true">←</span>
         Back to roadmap
       </Link>
 
-      <header className="topic-header">
+      <header className={styles["topic-header"]}>
         <div>
-          <span className="section-eyebrow">
+          <span className={styles["section-eyebrow"]}>
             {level ? `${level.code} · ${level.title}` : "YOUR CURRICULUM"}
           </span>
 
@@ -62,38 +62,38 @@ const TopicPage = () => {
           <p>{topic.description}</p>
         </div>
 
-        <div className="topic-header-badge">
+        <div className={styles["topic-header-badge"]}>
           <span>{lessons.length}</span>
           <span>Lessons</span>
         </div>
       </header>
 
-      <section className="topic-overview">
-        <div className="topic-overview-heading">
+      <section className={styles["topic-overview"]}>
+        <div className={styles["topic-overview-heading"]}>
           <div>
-            <span className="section-eyebrow">YOUR PROGRESS</span>
+            <span className={styles["section-eyebrow"]}>YOUR PROGRESS</span>
             <h2>Topic progress</h2>
           </div>
 
-          <span className="topic-overview-percentage">{topicProgress}%</span>
+          <span className={styles["topic-overview-percentage"]}>{topicProgress}%</span>
         </div>
 
-        <div className="topic-overview-track">
+        <div className={styles["topic-overview-track"]}>
           <div
-            className="topic-overview-fill"
+            className={styles["topic-overview-fill"]}
             style={{ width: `${topicProgress}%` }}
           />
         </div>
 
-        <span className="topic-overview-caption">
+        <span className={styles["topic-overview-caption"]}>
           {completedLessonsCount} of {lessons.length} lessons completed
         </span>
       </section>
 
-      <section className="topic-lessons-section">
-        <div className="topic-lessons-heading">
+      <section className={styles["topic-lessons-section"]}>
+        <div className={styles["topic-lessons-heading"]}>
           <div>
-            <span className="section-eyebrow">LEARNING MATERIALS</span>
+            <span className={styles["section-eyebrow"]}>LEARNING MATERIALS</span>
             <h2>Lessons</h2>
           </div>
 
@@ -101,7 +101,7 @@ const TopicPage = () => {
         </div>
 
         {lessons.length > 0 ? (
-          <div className="topic-lessons-list">
+          <div className={styles["topic-lessons-list"]}>
             {lessons.map((lesson, index) => {
               const status = getLessonStatus(lesson.id);
 
@@ -109,17 +109,17 @@ const TopicPage = () => {
                 <Link
                   key={lesson.id}
                   to={`/lesson/${lesson.id}`}
-                  className={`topic-lesson-card ${status}-lesson`}
+                  className={`${styles["topic-lesson-card"]} ${styles[`${status}-lesson`]}`}
                 >
-                  <div className="topic-lesson-number">
+                  <div className={styles["topic-lesson-number"]}>
                     {String(index + 1).padStart(2, "0")}
                   </div>
 
-                  <div className="topic-lesson-content">
-                    <div className="topic-lesson-title-row">
+                  <div className={styles["topic-lesson-content"]}>
+                    <div className={styles["topic-lesson-title-row"]}>
                       <h3>{lesson.title}</h3>
 
-                      <span className={`topic-lesson-status ${status}-label`}>
+                      <span className={`${styles["topic-lesson-status"]} ${styles[`${status}-label`]}`}>
                         {status === "completed" && "Completed"}
                         {status === "in-progress" && "In progress"}
                         {status === "not-started" && "Not started"}
@@ -128,12 +128,12 @@ const TopicPage = () => {
 
                     <p>{lesson.description}</p>
 
-                    <span className="topic-lesson-duration">
+                    <span className={styles["topic-lesson-duration"]}>
                       {lesson.estimatedMinutes} min
                     </span>
                   </div>
 
-                  <span className="topic-lesson-arrow" aria-hidden="true">
+                  <span className={styles["topic-lesson-arrow"]} aria-hidden="true">
                     →
                   </span>
                 </Link>
@@ -141,7 +141,7 @@ const TopicPage = () => {
             })}
           </div>
         ) : (
-          <div className="topic-empty-state">
+          <div className={styles["topic-empty-state"]}>
             <h3>No lessons yet</h3>
             <p>Learning materials for this topic will be added later.</p>
           </div>
