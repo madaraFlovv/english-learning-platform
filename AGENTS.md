@@ -10,8 +10,9 @@ Then inspect the actual source files relevant to the requested task. Source code
 
 ## Non-negotiable project conventions
 
-- This is the English Path school project. Help maintain and extend the existing application; do not generate a replacement project.
+- This is the Englishly school project. Help maintain and extend the existing application; do not generate a replacement project.
 - Use TypeScript and preserve type safety.
+- Use CSS Modules for page/component styles. Shared colors and theme tokens belong in the global design-token files.
 - Use arrow functions for functions and React components. Do not introduce ordinary function declarations.
 - Do not rewrite unrelated files or perform broad refactors without explaining the need.
 - Preserve route paths and existing domain IDs unless the task explicitly requires changing them.
