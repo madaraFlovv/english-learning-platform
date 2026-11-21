@@ -113,6 +113,7 @@ const LandingPage = () => {
           <span className={styles["section-eyebrow"]}>YOUR LEARNING PATH</span>
           <h1>Good morning!</h1>
           <p>Every lesson brings you one step closer to fluency.</p>
+          <Link to="/placement-test" className={styles["placement-link"]}>Check your English level <span aria-hidden="true">→</span></Link>
         </div>
 
         <div className={styles["streak-card"]}>
