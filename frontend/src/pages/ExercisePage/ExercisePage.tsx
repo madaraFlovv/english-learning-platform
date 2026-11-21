@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { presentSimpleQuestions } from "../../data/exercises/lessons/presentSimple";
+import { learningData } from "../../data/learningData";
 
 import "./ExercisePage.css";
 
@@ -12,7 +12,11 @@ const normalizeAnswer = (answer: string) => {
 const ExercisePage = () => {
   const { lessonId } = useParams();
 
-  const questions = presentSimpleQuestions;
+  const lesson = learningData.lessons.find((item) => item.id === lessonId);
+
+  const questions = learningData.exercises
+    .filter((exercise) => exercise.lessonId === lessonId)
+    .sort((first, second) => first.order - second.order);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -20,7 +24,103 @@ const ExercisePage = () => {
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
+  // Reset exercise state when the user opens another lesson.
+  useEffect(() => {
+    setCurrentQuestion(0);
+    setSelectedAnswer(null);
+    setIsAnswered(false);
+    setScore(0);
+    setIsFinished(false);
+  }, [lessonId]);
+
+  if (!lesson) {
+    return (
+      <div className="exercise-page">
+        <div className="exercise-result">
+          <span className="section-eyebrow">ERROR</span>
+          <h1>Lesson not found</h1>
+          <p>We couldn't find the lesson you're looking for.</p>
+
+          <Link to="/" className="exercise-primary-button">
+            Back to roadmap
+            <span>→</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (questions.length === 0) {
+    return (
+      <div className="exercise-page">
+        <Link to={`/lesson/${lesson.id}`} className="exercise-back-link">
+          ← Back to lesson
+        </Link>
+
+        <div className="exercise-result">
+          <span className="section-eyebrow">PRACTICE</span>
+          <h1>Exercises coming soon</h1>
+          <p>
+            Exercises for "{lesson.title}" haven't been added yet. Check back
+            later.
+          </p>
+
+          <Link to={`/lesson/${lesson.id}`} className="exercise-primary-button">
+            Back to lesson
+            <span>→</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (isFinished) {
+    return (
+      <div className="exercise-page">
+        <div className="exercise-result">
+          <span className="section-eyebrow">LESSON COMPLETED</span>
+
+          <div className="result-score">
+            {score}
+            <span> / {questions.length}</span>
+          </div>
+
+          <h1>Practice completed!</h1>
+
+          <p>
+            You answered {score} out of {questions.length} questions correctly.
+          </p>
+
+          <div className="result-progress">
+            <div
+              className="result-progress-fill"
+              style={{ width: `${(score / questions.length) * 100}%` }}
+            />
+          </div>
+
+          <Link to="/" className="exercise-primary-button">
+            Back to roadmap
+            <span>→</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   const question = questions[currentQuestion];
+
+  if (!question) {
+    return (
+      <div className="exercise-result">
+        <h1>Something went wrong</h1>
+        <p>We couldn't load this question.</p>
+        <Link to={`/lesson/${lesson.id}`} className="exercise-primary-button">
+          Back to lesson
+          <span>→</span>
+        </Link>
+      </div>
+    );
+  }
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
@@ -56,42 +156,9 @@ const ExercisePage = () => {
     setIsAnswered(false);
   };
 
-  if (isFinished) {
-    return (
-      <div className="exercise-page">
-        <div className="exercise-result">
-          <span className="section-eyebrow">LESSON COMPLETED</span>
-
-          <div className="result-score">
-            {score}
-            <span> / {questions.length}</span>
-          </div>
-
-          <h1>Practice completed!</h1>
-
-          <p>
-            You answered {score} out of {questions.length} questions correctly.
-          </p>
-
-          <div className="result-progress">
-            <div
-              className="result-progress-fill"
-              style={{ width: `${(score / questions.length) * 100}%` }}
-            />
-          </div>
-
-          <Link to="/" className="exercise-primary-button">
-            Back to roadmap
-            <span>→</span>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="exercise-page">
-      <Link to={`/lesson/${lessonId}`} className="exercise-back-link">
+      <Link to={`/lesson/${lesson.id}`} className="exercise-back-link">
         ← Back to lesson
       </Link>
 
@@ -99,7 +166,7 @@ const ExercisePage = () => {
         <header className="exercise-header">
           <div>
             <span className="section-eyebrow">GRAMMAR PRACTICE</span>
-            <h1>Present Simple</h1>
+            <h1>{lesson.title}</h1>
             <p>
               {question.type === "multiple-choice"
                 ? "Choose the correct answer to complete the sentence."
@@ -228,7 +295,7 @@ const ExercisePage = () => {
 
         <div className="exercise-footer">
           <span>Take your time. Learning is about understanding.</span>
-          <span>Present Simple · A1</span>
+          <span>{lesson.title}</span>
         </div>
       </div>
     </div>
