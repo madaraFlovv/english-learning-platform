@@ -30,3 +30,11 @@ Then inspect the actual source files relevant to the requested task. Source code
 5. Report exactly what changed and which checks were actually run.
 6. Update project documentation when implementation status or architecture changes.
 7. Do not silently replace mock data with browser storage or introduce new libraries.
+
+
+## Placement Test
+
+- The initial test uses `data/placementQuestions.ts` and `services/placementService.ts`; do not duplicate its scoring rules in the page.
+- A CEFR band is passed at 75% correct, and the estimated level advances only through consecutive passed bands from A1 upward.
+- Keep the result explicitly described as an indicative grammar/vocabulary estimate, not official CEFR certification.
+- When changing the question bank or scoring rules, update `PROJECT_CONTEXT.md`, `PROJECT_STATUS.md`, `ARCHITECTURE.md` and `ROADMAP.md`.
