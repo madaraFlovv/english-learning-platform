@@ -6,6 +6,7 @@ import LandingPage from "../pages/LandingPage/LandingPage";
 import TopicPage from "../pages/TopicPage/TopicPage";
 import LessonPage from "../pages/LessonPage/LessonPage";
 import ExercisePage from "../pages/ExercisePage/ExercisePage";
+import PlacementTestPage from "../pages/PlacementTestPage/PlacementTestPage";
 
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/placement-test",
+        element: <PlacementTestPage />,
       },
       {
         path: "/topic/:topicId",
