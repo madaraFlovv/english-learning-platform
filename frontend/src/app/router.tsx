@@ -2,9 +2,13 @@ import { createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "../components/AppLayout/AppLayout";
 
+import LandingPage from "../pages/LandingPage/LandingPage";
+import LessonPage from "../pages/LessonPage/LessonPage";
+import ExercisePage from "../pages/ExercisePage/ExercisePage";
+
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
-import LandingPage from "../pages/LandingPage/LandingPage";
+
 import PlaceholderPage from "../pages/PlaceholderPage/PlaceholderPage";
 
 export const router = createBrowserRouter([
@@ -14,6 +18,14 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/lesson/:lessonId",
+        element: <LessonPage />,
+      },
+      {
+        path: "/exercise/:lessonId",
+        element: <ExercisePage />,
       },
       {
         path: "/ai",

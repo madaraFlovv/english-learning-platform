@@ -1,4 +1,5 @@
 import "./LandingPage.css";
+import { Link } from "react-router-dom";
 const LandingPage = () => {
   return (
     <div className="roadmap-page">
@@ -64,10 +65,10 @@ const LandingPage = () => {
               that are always true.
             </p>
 
-            <a href="#roadmap" className="lesson-button">
-              Explore your roadmap
+            <Link to="/lesson/present-simple" className="lesson-button">
+              Continue lesson
               <span aria-hidden="true">→</span>
-            </a>
+            </Link>
           </div>
 
           <div className="lesson-decoration" aria-hidden="true">
