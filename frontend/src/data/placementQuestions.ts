@@ -7,7 +7,7 @@ export const placementQuestions: PlacementTestQuestion[] = [
     type: "multiple-choice",
     prompt: "My name ___ Anna.",
     options: ["am", "is", "are", "be"],
-    correctAnswer: "am",
+    correctAnswer: "is",
     explanation: "With I, use am.",
   },
   {
