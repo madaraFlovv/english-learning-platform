@@ -34,7 +34,7 @@ Partially implemented / prototype only:
 - Only the `present-simple` lesson currently has an exercise set (8 questions).
 - Other lessons show an exercises-coming-soon state.
 - Login and registration do not authenticate users.
-- Progress is read from static mock data and is not updated or persisted by exercise completion.
+- Progress starts from `data/mockProgress.ts` and is held in React Context while the app is running. Completing an exercise updates the shared in-memory progress state and the Roadmap/Topic pages reflect it. Progress is not persisted across reloads.
 - AI Tutor and Account are placeholder pages.
 
 Do not describe placeholder functionality as implemented functionality.
@@ -140,12 +140,14 @@ Data sources:
 ## 7. Existing implementation behavior
 
 ### Roadmap
-- Uses `mockProgress.currentLevelId` to select the current level.
+- Reads the current user progress through `useProgress()` from `ProgressContext`.
+- Uses `progress.currentLevelId` to select the current level.
 - Calculates level and topic completion from `lessonProgress`.
 - Topic availability is currently derived from the completion state of preceding topics.
 - Displays a Continue Learning link based on the first unfinished lesson in the active topic.
 
 ### Topic and lesson pages
+- TopicPage reads shared progress through `useProgress()` and displays completed lesson counts.
 - Resolve route parameters with `useParams`.
 - Show not-found states for unknown IDs.
 - Lesson content is rendered according to the `LessonContentBlock` discriminated union.
@@ -157,7 +159,7 @@ Data sources:
 - Normalizes answers by trimming whitespace and converting to lowercase.
 - Displays feedback and explanation after checking an answer.
 - Calculates a score and displays a result screen.
-- Does not yet write the result into `mockProgress` or persistent storage.
+- Calls `completeLesson` from `ProgressContext` when the final question is submitted. The result updates in-memory progress; it is not persisted across reloads.
 
 ## 8. Engineering conventions
 
