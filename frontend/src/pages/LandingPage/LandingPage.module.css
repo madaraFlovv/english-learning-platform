@@ -542,3 +542,8 @@
     flex-direction: column;
   }
 }
+
+.placement-link{display:inline-flex;align-items:center;gap:8px;margin-top:13px;color:var(--color-primary);font-size:12px;font-weight:800;text-decoration:none}
+.placement-link:hover{color:var(--color-primary-hover)}
+.placement-link span{font-size:16px;transition:transform .15s ease}
+.placement-link:hover span{transform:translateX(3px)}
