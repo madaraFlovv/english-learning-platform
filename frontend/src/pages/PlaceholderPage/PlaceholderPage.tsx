@@ -1,4 +1,4 @@
-import "./PlaceholderPage.css";
+import styles from "../PlaceholderPage.module.css";
 
 type PlaceholderPageProps = {
   title: string;
@@ -7,14 +7,14 @@ type PlaceholderPageProps = {
 
 const PlaceholderPage = ({ title, description }: PlaceholderPageProps) => {
   return (
-    <section className="placeholder-page">
-      <span className="placeholder-eyebrow">ENGLISH PATH</span>
+    <section className={styles["placeholder-page"]}>
+      <span className={styles["placeholder-eyebrow"]}>ENGLISHLY</span>
 
       <h1>{title}</h1>
 
       <p>{description}</p>
 
-      <span className="placeholder-status">Under development</span>
+      <span className={styles["placeholder-status"]}>Under development</span>
     </section>
   );
 };
