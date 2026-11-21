@@ -19,7 +19,7 @@ Last reviewed against GitHub branch: `frontend`.
 | Exercise engine | Implemented for current question types | Multiple choice and fill-in-the-blanks |
 | Present Simple exercises | Implemented | 8 questions for `present-simple` |
 | Exercises for other lessons | Not implemented | Shows coming-soon state |
-| Exercise result → user progress | Not implemented | Result is not saved |
+| Exercise result → user progress | Implemented in mock state | Completing an exercise updates the shared Progress Context; not persistent across reloads |
 | Registration | UI / placeholder only | No real account creation |
 | Login | UI only | No authentication |
 | Account | Placeholder | No profile or statistics UI |
@@ -27,7 +27,7 @@ Last reviewed against GitHub branch: `frontend`.
 | Placement test | Not implemented | No onboarding or level assessment |
 | Backend API | Not implemented | No server application in repository |
 | Database | Not implemented | No schema or migrations |
-| Persistent progress | Not implemented | Static mock data only |
+| Persistent progress | Not implemented | Progress exists in React memory only and resets on reload |
 | Automated tests | Not configured in package scripts | No test runner currently listed |
 
 ## Current routes
