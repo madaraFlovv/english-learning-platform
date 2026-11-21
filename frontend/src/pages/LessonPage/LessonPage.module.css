@@ -1,3 +1,4 @@
+.section-eyebrow{display:inline-block;color:var(--color-text-muted);font-size:10px;font-weight:900;letter-spacing:1.2px;line-height:1.4}
 .lesson-page{display:flex;flex-direction:column;gap:27px;padding-bottom:36px}
 .lesson-back-link{width:fit-content;color:var(--color-text-secondary);font-size:13px;font-weight:700;text-decoration:none;transition:color .18s ease}
 .lesson-back-link:hover{color:var(--color-primary)}
