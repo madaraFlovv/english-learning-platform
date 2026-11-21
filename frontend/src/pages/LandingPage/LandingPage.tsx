@@ -1,4 +1,4 @@
-import "./LandingPage.css";
+import styles from "./LandingPage.module.css";
 
 import { Link } from "react-router-dom";
 
@@ -107,70 +107,70 @@ const LandingPage = () => {
   );
 
   return (
-    <div className="roadmap-page">
-      <header className="roadmap-header">
+    <div className={styles["roadmap-page"]}>
+      <header className={styles["roadmap-header"]}>
         <div>
-          <span className="section-eyebrow">YOUR LEARNING PATH</span>
+          <span className={styles["section-eyebrow"]}>YOUR LEARNING PATH</span>
           <h1>Good morning!</h1>
           <p>Every lesson brings you one step closer to fluency.</p>
         </div>
 
-        <div className="streak-card">
-          <span className="streak-number">{mockProgress.streakDays}</span>
+        <div className={styles["streak-card"]}>
+          <span className={styles["streak-number"]}>{mockProgress.streakDays}</span>
 
           <div>
-            <span className="streak-title">Day streak</span>
-            <span className="streak-caption">Keep it going</span>
+            <span className={styles["streak-title"]}>Day streak</span>
+            <span className={styles["streak-caption"]}>Keep it going</span>
           </div>
         </div>
       </header>
 
-      <section className="progress-section">
-        <div className="progress-heading">
+      <section className={styles["progress-section"]}>
+        <div className={styles["progress-heading"]}>
           <div>
-            <span className="section-eyebrow">YOUR PROGRESS</span>
+            <span className={styles["section-eyebrow"]}>YOUR PROGRESS</span>
             <h2>English level</h2>
           </div>
 
-          <span className="level-badge">{currentLevel.code}</span>
+          <span className={styles["level-badge"]}>{currentLevel.code}</span>
         </div>
 
-        <div className="progress-details">
+        <div className={styles["progress-details"]}>
           <div>
-            <span className="progress-percentage">{levelProgress}%</span>
-            <span className="progress-description">of the level completed</span>
+            <span className={styles["progress-percentage"]}>{levelProgress}%</span>
+            <span className={styles["progress-description"]}>of the level completed</span>
           </div>
 
-          <span className="progress-lessons">
+          <span className={styles["progress-lessons"]}>
             {completedLessonsCount} of {totalLessonsCount} lessons
           </span>
         </div>
 
-        <div className="progress-track">
+        <div className={styles["progress-track"]}>
           <div
-            className="progress-fill"
+            className={styles["progress-fill"]}
             style={{ width: `${levelProgress}%` }}
           />
         </div>
       </section>
 
-      <section className="continue-section">
-        <div className="section-heading">
+      <section className={styles["continue-section"]}>
+        <div className={styles["section-heading"]}>
           <div>
-            <span className="section-eyebrow">PICK UP WHERE YOU LEFT OFF</span>
+            <span className={styles["section-eyebrow"]}>PICK UP WHERE YOU LEFT OFF</span>
             <h2>Continue learning</h2>
           </div>
         </div>
 
         {currentLesson ? (
-          <div className="current-lesson">
-            <div className="lesson-info">
-              <div className="lesson-meta">
-                <span className="lesson-level">
+          <div className={styles["current-lesson"]}>
+            <div className={styles["lesson-info"]}>
+              <div className={styles["lesson-meta"]}>
+                <span className={styles["lesson-level"]}>
                   {currentLevel.code} {currentLevel.title.toUpperCase()}
                 </span>
 
-                <span className="lesson-duration">
+                <span className={styles["lesson-duration"]}>
                   {currentLesson.estimatedMinutes} min
                 </span>
               </div>
@@ -181,21 +181,21 @@ const LandingPage = () => {
 
               <Link
                 to={`/lesson/${currentLesson.id}`}
-                className="lesson-button"
+                className={styles["lesson-button"]}
               >
                 Continue lesson
                 <span aria-hidden="true">→</span>
               </Link>
             </div>
 
-            <div className="lesson-decoration" aria-hidden="true">
-              <span className="decoration-letter">Aa</span>
-              <span className="decoration-caption">GRAMMAR</span>
+            <div className={styles["lesson-decoration"]} aria-hidden="true">
+              <span className={styles["decoration-letter"]}>Aa</span>
+              <span className={styles["decoration-caption"]}>GRAMMAR</span>
             </div>
           </div>
         ) : (
-          <div className="current-lesson">
-            <div className="lesson-info">
+          <div className={styles["current-lesson"]}>
+            <div className={styles["lesson-info"]}>
               <h3>Level completed!</h3>
               <p>
                 You have completed all lessons in this level. Keep learning!
@@ -205,10 +205,10 @@ const LandingPage = () => {
         )}
       </section>
 
-      <section className="roadmap-section" id="roadmap">
-        <div className="roadmap-section-heading">
+      <section className={styles["roadmap-section"]} id="roadmap">
+        <div className={styles["roadmap-section-heading"]}>
           <div>
-            <span className="section-eyebrow">YOUR CURRICULUM</span>
+            <span className={styles["section-eyebrow"]}>YOUR CURRICULUM</span>
 
             <h2>
               {currentLevel.code} · {currentLevel.title}
@@ -217,22 +217,22 @@ const LandingPage = () => {
             <p>{currentLevel.description}</p>
           </div>
 
-          <span className="topic-count">{levelTopics.length} topics</span>
+          <span className={styles["topic-count"]}>{levelTopics.length} topics</span>
         </div>
 
-        <div className="topics-list">
+        <div className={styles["topics-list"]}>
           {topicCards.map((topic, index) => {
             const cardContent = (
               <>
-                <div className="topic-number">
+                <div className={styles["topic-number"]}>
                   {String(index + 1).padStart(2, "0")}
                 </div>
 
-                <div className="topic-content">
-                  <div className="topic-title-row">
+                <div className={styles["topic-content"]}>
+                  <div className={styles["topic-title-row"]}>
                     <h3>{topic.title}</h3>
 
-                    <span className={`topic-status ${topic.status}-status`}>
+                    <span className={`${styles["topic-status"]} ${styles[`${topic.status}-status`]}`}>
                       {topic.status === "completed" && "Completed"}
                       {topic.status === "in-progress" && "In progress"}
                       {topic.status === "available" && "Available"}
@@ -243,22 +243,22 @@ const LandingPage = () => {
                   <p>{topic.description}</p>
 
                   {topic.status !== "locked" && (
-                    <div className="topic-progress-track">
+                    <div className={styles["topic-progress-track"]}>
                       <div
-                        className="topic-progress-fill"
+                        className={styles["topic-progress-fill"]}
                         style={{ width: `${topic.topicProgress}%` }}
                       />
                     </div>
                   )}
 
-                  <span className="topic-lessons">
+                  <span className={styles["topic-lessons"]}>
                     {topic.lessons.length} lessons
                     {topic.status !== "locked" &&
                       ` · ${topic.completedCount} completed`}
                   </span>
                 </div>
 
-                <span className="topic-arrow">
+                <span className={styles["topic-arrow"]}>
                   {topic.status === "completed" && "✓"}
                   {topic.status === "in-progress" && "→"}
                   {topic.status === "available" && "→"}
@@ -270,7 +270,7 @@ const LandingPage = () => {
             return topic.status === "locked" ? (
               <article
                 key={topic.id}
-                className={`topic-card ${topic.status}-topic`}
+                className={`${styles["topic-card"]} ${styles[`${topic.status}-topic`]}`}
               >
                 {cardContent}
               </article>
@@ -292,7 +292,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <footer className="roadmap-footer">
+      <footer className={styles["roadmap-footer"]}>
         <span>Consistency matters more than perfection.</span>
         <span>ENGLISH PATH</span>
       </footer>
