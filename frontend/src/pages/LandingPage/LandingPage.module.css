@@ -100,7 +100,7 @@
   place-items: center;
   width: 43px;
   height: 43px;
-  border: 1px solid #d7e7dc;
+  border: 1px solid var(--color-primary-border);
   border-radius: 7px;
   background: var(--color-surface-soft);
   color: var(--color-primary);
@@ -217,7 +217,7 @@
   padding: 11px 15px;
   border-radius: 6px;
   background: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-on-primary);
   font-size: 12px;
   font-weight: 600;
   text-decoration: none;
@@ -332,7 +332,7 @@
 
 .in-progress-topic .topic-number {
   background: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-on-primary);
 }
 
 .topic-content {
@@ -382,7 +382,7 @@
 
 .locked-status {
   background: var(--color-surface-soft);
-  color: #858d87;
+  color: var(--color-text-muted);
 }
 
 .topic-progress-track {
