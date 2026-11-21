@@ -140,10 +140,10 @@
 }
 
 .progress-fill {
-  width: 15%;
   height: 100%;
   border-radius: inherit;
   background: var(--color-accent);
+  transition: width 300ms ease;
 }
 
 /* Continue learning */
@@ -305,6 +305,7 @@
   border: 1px solid #e5ebe6;
   border-radius: 8px;
   background: var(--color-surface);
+  transition: border-color 160ms ease;
 }
 
 .topic-number {
@@ -325,11 +326,11 @@
   color: var(--color-accent);
 }
 
-.active-topic {
+.in-progress-topic {
   border-color: #b9d3c0;
 }
 
-.active-topic .topic-number {
+.in-progress-topic .topic-number {
   background: var(--color-accent);
   color: #ffffff;
 }
@@ -373,7 +374,8 @@
   color: #36744b;
 }
 
-.active-status {
+.in-progress-status,
+.available-status {
   background: #edf3ee;
   color: #52745d;
 }
@@ -396,14 +398,7 @@
   height: 100%;
   border-radius: inherit;
   background: var(--color-accent);
-}
-
-.full-progress {
-  width: 100%;
-}
-
-.partial-progress {
-  width: 40%;
+  transition: width 300ms ease;
 }
 
 .topic-lessons {

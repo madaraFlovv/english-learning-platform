@@ -1,45 +1,18 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+
+import { presentSimpleQuestions } from "../../data/exercises/lessons/presentSimple";
+
 import "./ExercisePage.css";
 
-const questions = [
-  {
-    question: "She ___ to school every morning.",
-    options: ["go", "goes", "going", "is go"],
-    correctAnswer: "goes",
-    explanation:
-      "With he, she and it, we add -s or -es to the verb in Present Simple.",
-  },
-  {
-    question: "They ___ football on Sundays.",
-    options: ["plays", "playing", "play", "are play"],
-    correctAnswer: "play",
-    explanation: "With they, we use the base form of the verb without -s.",
-  },
-  {
-    question: "My brother ___ coffee.",
-    options: ["don't like", "doesn't likes", "doesn't like", "not like"],
-    correctAnswer: "doesn't like",
-    explanation:
-      "In negative sentences with he, she and it, we use doesn't + base verb.",
-  },
-  {
-    question: "___ you speak English?",
-    options: ["Does", "Do", "Are", "Is"],
-    correctAnswer: "Do",
-    explanation: "We use Do to form questions with I, you, we and they.",
-  },
-  {
-    question: "The sun ___ in the east.",
-    options: ["rise", "rising", "rises", "is rise"],
-    correctAnswer: "rises",
-    explanation:
-      "This is a general fact. We use Present Simple, and with the sun (it), the verb takes -s.",
-  },
-];
+const normalizeAnswer = (answer: string) => {
+  return answer.trim().toLowerCase();
+};
 
 const ExercisePage = () => {
   const { lessonId } = useParams();
+
+  const questions = presentSimpleQuestions;
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -48,15 +21,26 @@ const ExercisePage = () => {
   const [isFinished, setIsFinished] = useState(false);
 
   const question = questions[currentQuestion];
+
   const progress = ((currentQuestion + 1) / questions.length) * 100;
-  const isCorrect = selectedAnswer === question.correctAnswer;
+
+  const acceptedAnswers =
+    question.type === "fill-in-the-blanks"
+      ? [question.correctAnswer, ...(question.acceptedAnswers ?? [])]
+      : [question.correctAnswer];
+
+  const isCorrect =
+    selectedAnswer !== null &&
+    acceptedAnswers.some(
+      (answer) => normalizeAnswer(answer) === normalizeAnswer(selectedAnswer),
+    );
 
   const handleCheckAnswer = () => {
-    if (!selectedAnswer || isAnswered) return;
+    if (!selectedAnswer?.trim() || isAnswered) return;
 
     setIsAnswered(true);
 
-    if (selectedAnswer === question.correctAnswer) {
+    if (isCorrect) {
       setScore((previousScore) => previousScore + 1);
     }
   };
@@ -116,7 +100,11 @@ const ExercisePage = () => {
           <div>
             <span className="section-eyebrow">GRAMMAR PRACTICE</span>
             <h1>Present Simple</h1>
-            <p>Choose the correct answer to complete the sentence.</p>
+            <p>
+              {question.type === "multiple-choice"
+                ? "Choose the correct answer to complete the sentence."
+                : "Type the correct form of the verb."}
+            </p>
           </div>
 
           <div className="exercise-counter">
@@ -137,43 +125,64 @@ const ExercisePage = () => {
             QUESTION {currentQuestion + 1}
           </span>
 
-          <h2>{question.question}</h2>
+          <h2>
+            {question.type === "multiple-choice"
+              ? question.question
+              : question.sentence}
+          </h2>
 
-          <div className="exercise-options">
-            {question.options.map((option, index) => {
-              const isSelected = selectedAnswer === option;
-              const isCorrectOption = option === question.correctAnswer;
+          {question.type === "multiple-choice" ? (
+            <div className="exercise-options">
+              {question.options.map((option, index) => {
+                const isSelected = selectedAnswer === option;
+                const isCorrectOption = option === question.correctAnswer;
 
-              let optionClass = "exercise-option";
+                let optionClass = "exercise-option";
 
-              if (isSelected) optionClass += " is-selected";
-              if (isAnswered && isCorrectOption) {
-                optionClass += " is-correct";
-              }
-              if (isAnswered && isSelected && !isCorrect) {
-                optionClass += " is-incorrect";
-              }
+                if (isSelected) optionClass += " is-selected";
 
-              return (
-                <button
-                  key={option}
-                  className={optionClass}
-                  onClick={() => setSelectedAnswer(option)}
-                  disabled={isAnswered}
-                >
-                  <span className="option-letter">
-                    {String.fromCharCode(65 + index)}
-                  </span>
+                if (isAnswered && isCorrectOption) {
+                  optionClass += " is-correct";
+                }
 
-                  <span>{option}</span>
+                if (isAnswered && isSelected && !isCorrect) {
+                  optionClass += " is-incorrect";
+                }
 
-                  {isAnswered && isCorrectOption && (
-                    <span className="option-status">✓</span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                return (
+                  <button
+                    key={option}
+                    className={optionClass}
+                    onClick={() => setSelectedAnswer(option)}
+                    disabled={isAnswered}
+                  >
+                    <span className="option-letter">
+                      {String.fromCharCode(65 + index)}
+                    </span>
+
+                    <span>{option}</span>
+
+                    {isAnswered && isCorrectOption && (
+                      <span className="option-status">✓</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="exercise-fill-answer">
+              <input
+                type="text"
+                className="exercise-fill-input"
+                placeholder="Type your answer..."
+                value={selectedAnswer ?? ""}
+                onChange={(event) => setSelectedAnswer(event.target.value)}
+                disabled={isAnswered}
+                autoComplete="off"
+                spellCheck={false}
+              />
+            </div>
+          )}
 
           {isAnswered && (
             <div
@@ -182,7 +191,14 @@ const ExercisePage = () => {
               }`}
             >
               <h3>{isCorrect ? "Correct answer!" : "Not quite right"}</h3>
+
               <p>{question.explanation}</p>
+
+              {!isCorrect && question.type === "fill-in-the-blanks" && (
+                <p className="exercise-correct-answer">
+                  Correct answer: <strong>{question.correctAnswer}</strong>
+                </p>
+              )}
             </div>
           )}
 
@@ -191,7 +207,7 @@ const ExercisePage = () => {
               <button
                 className="exercise-primary-button"
                 onClick={handleCheckAnswer}
-                disabled={!selectedAnswer}
+                disabled={!selectedAnswer?.trim()}
               >
                 Check answer
                 <span>→</span>
