@@ -84,10 +84,10 @@ IDs are important references. Do not casually rename them because roadmap, lesso
 ## Current data flow
 
 ### Roadmap and topic pages
-1. Page imports `learningData` from `data/roadmap.ts`.
-2. It selects the current level/topic/lessons using IDs.
-3. It reads `mockProgress` from `data/mockProgress.ts`.
-4. It calculates display progress from lesson statuses.
+1. Page imports curriculum data from `data/roadmap.ts`.
+2. It reads the current `UserProgress` through `useProgress()` from `ProgressContext`.
+3. It selects the current level/topic/lessons using IDs.
+4. It calculates display progress from the shared in-memory lesson statuses.
 
 ### Lesson page
 1. Reads `lessonId` from the route.
@@ -103,15 +103,18 @@ IDs are important references. Do not casually rename them because roadmap, lesso
 4. Sorts them by `order`.
 5. Keeps current answer, feedback and score in React component state.
 6. Displays a result at the end.
-7. Does not currently persist the result or update mock progress.
+7. On completion, calls `completeLesson` from `ProgressContext` with the lesson ID and score percentage.
+8. The context applies the pure update rule from `progressService.ts`; Roadmap and Topic pages re-render with the updated progress.
+9. The update exists only in React memory and resets when the app reloads.
 
 ## Progress state rules
 
-- `ProgressContext` owns the reactive in-memory `UserProgress` state.
+- `ProgressContext` initializes reactive in-memory `UserProgress` state from `mockProgress.ts`.
 - `progressService.ts` owns the pure update rule and does not depend on React.
-- Completing an exercise marks the lesson as `completed` and stores the score percentage.
+- Completing an exercise marks the lesson as `completed` and stores the best score percentage (a lower retry score does not replace a higher score).
 - `completedLessonsCount` is recalculated from lesson records to avoid count drift.
-- The context is a temporary mock implementation. It can later be replaced with API-backed state while preserving the page-facing progress interface.
+- Roadmap and Topic pages consume the shared context, so they reflect exercise completion immediately.
+- This is still a temporary mock implementation: progress resets on reload and is not associated with a real authenticated user.
 
 ## Planned evolution (not implemented yet)
 
