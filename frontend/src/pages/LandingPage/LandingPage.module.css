@@ -438,6 +438,14 @@
   transform: translateX(3px);
 }
 
+.available-topic {
+  border-color: var(--color-primary-border);
+}
+
+.locked-topic {
+  background: var(--color-surface-soft);
+}
+
 .locked-topic .topic-arrow {
   color: var(--color-text-muted);
 }
