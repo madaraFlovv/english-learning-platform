@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import styles from "../AuthPage.module.css";
 import { register } from "../../services/authService";
 
 const RegisterPage = () => {
@@ -16,12 +17,12 @@ const RegisterPage = () => {
     }
   };
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h1 className="auth-title">Create An Account</h1>
-        <form className="auth-form" onSubmit={handleSubmit}>
+    <div className={styles["auth-page"]}>
+      <div className={styles["auth-card"]}>
+        <h1 className={styles["auth-title"]}>Create An Account</h1>
+        <form className={styles["auth-form"]} onSubmit={handleSubmit}>
           <input
-            className="auth-input"
+            className={styles["auth-input"]}
             type="email"
             name="email"
             placeholder="Email"
@@ -30,7 +31,7 @@ const RegisterPage = () => {
             required
           />
           <input
-            className="auth-input"
+            className={styles["auth-input"]}
             type="password"
             name="password"
             value={password}
@@ -39,7 +40,7 @@ const RegisterPage = () => {
             required
           />
           <input
-            className="auth-input"
+            className={styles["auth-input"]}
             type="password"
             value={confirmedPassword}
             onChange={(e) => setСonfirmedPassword(e.target.value)}
@@ -48,13 +49,13 @@ const RegisterPage = () => {
             required
           />
 
-          <button className="auth-button" type="submit">
+          <button className={styles["auth-button"]} type="submit">
             Create
           </button>
         </form>
-        <div className="auth-footer">
+        <div className={styles["auth-footer"]}>
           <p>Already have an account?</p>
-          <Link className="auth-link" to={"/login"}>
+          <Link className={styles["auth-link"]} to={"/login"}>
             Login here
           </Link>
         </div>
