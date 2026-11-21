@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { learningData } from "../../data/learningData";
 import { useProgress } from "../../context/ProgressContext";
 
-import "./ExercisePage.css";
+import styles from "./ExercisePage.module.css";
 
 const normalizeAnswer = (answer: string) => {
   return answer.trim().toLowerCase();
@@ -37,13 +37,13 @@ const ExercisePage = () => {
 
   if (!lesson) {
     return (
-      <div className="exercise-page">
-        <div className="exercise-result">
-          <span className="section-eyebrow">ERROR</span>
+      <div className={styles["exercise-page"]}>
+        <div className={styles["exercise-result"]}>
+          <span className={styles["section-eyebrow"]}>ERROR</span>
           <h1>Lesson not found</h1>
           <p>We couldn't find the lesson you're looking for.</p>
 
-          <Link to="/" className="exercise-primary-button">
+          <Link to="/" className={styles["exercise-primary-button"]}>
             Back to roadmap
             <span>→</span>
           </Link>
@@ -54,20 +54,20 @@ const ExercisePage = () => {
 
   if (questions.length === 0) {
     return (
-      <div className="exercise-page">
-        <Link to={`/lesson/${lesson.id}`} className="exercise-back-link">
+      <div className={styles["exercise-page"]}>
+        <Link to={`/lesson/${lesson.id}`} className={styles["exercise-back-link"]}>
           ← Back to lesson
         </Link>
 
-        <div className="exercise-result">
-          <span className="section-eyebrow">PRACTICE</span>
+        <div className={styles["exercise-result"]}>
+          <span className={styles["section-eyebrow"]}>PRACTICE</span>
           <h1>Exercises coming soon</h1>
           <p>
             Exercises for "{lesson.title}" haven't been added yet. Check back
             later.
           </p>
 
-          <Link to={`/lesson/${lesson.id}`} className="exercise-primary-button">
+          <Link to={`/lesson/${lesson.id}`} className={styles["exercise-primary-button"]}>
             Back to lesson
             <span>→</span>
           </Link>
@@ -78,11 +78,11 @@ const ExercisePage = () => {
 
   if (isFinished) {
     return (
-      <div className="exercise-page">
-        <div className="exercise-result">
-          <span className="section-eyebrow">LESSON COMPLETED</span>
+      <div className={styles["exercise-page"]}>
+        <div className={styles["exercise-result"]}>
+          <span className={styles["section-eyebrow"]}>LESSON COMPLETED</span>
 
-          <div className="result-score">
+          <div className={styles["result-score"]}>
             {score}
             <span> / {questions.length}</span>
           </div>
@@ -93,14 +93,14 @@ const ExercisePage = () => {
             You answered {score} out of {questions.length} questions correctly.
           </p>
 
-          <div className="result-progress">
+          <div className={styles["result-progress"]}>
             <div
-              className="result-progress-fill"
+              className={styles["result-progress-fill"]}
               style={{ width: `${(score / questions.length) * 100}%` }}
             />
           </div>
 
-          <Link to="/" className="exercise-primary-button">
+          <Link to="/" className={styles["exercise-primary-button"]}>
             Back to roadmap
             <span>→</span>
           </Link>
@@ -113,10 +113,10 @@ const ExercisePage = () => {
 
   if (!question) {
     return (
-      <div className="exercise-result">
+      <div className={styles["exercise-result"]}>
         <h1>Something went wrong</h1>
         <p>We couldn't load this question.</p>
-        <Link to={`/lesson/${lesson.id}`} className="exercise-primary-button">
+        <Link to={`/lesson/${lesson.id}`} className={styles["exercise-primary-button"]}>
           Back to lesson
           <span>→</span>
         </Link>
@@ -161,15 +161,15 @@ const ExercisePage = () => {
   };
 
   return (
-    <div className="exercise-page">
-      <Link to={`/lesson/${lesson.id}`} className="exercise-back-link">
+    <div className={styles["exercise-page"]}>
+      <Link to={`/lesson/${lesson.id}`} className={styles["exercise-back-link"]}>
         ← Back to lesson
       </Link>
 
-      <div className="exercise-container">
-        <header className="exercise-header">
+      <div className={styles["exercise-container"]}>
+        <header className={styles["exercise-header"]}>
           <div>
-            <span className="section-eyebrow">GRAMMAR PRACTICE</span>
+            <span className={styles["section-eyebrow"]}>GRAMMAR PRACTICE</span>
             <h1>{lesson.title}</h1>
             <p>
               {question.type === "multiple-choice"
@@ -178,21 +178,21 @@ const ExercisePage = () => {
             </p>
           </div>
 
-          <div className="exercise-counter">
+          <div className={styles["exercise-counter"]}>
             {String(currentQuestion + 1).padStart(2, "0")}
             <span> / {String(questions.length).padStart(2, "0")}</span>
           </div>
         </header>
 
-        <div className="exercise-progress">
+        <div className={styles["exercise-progress"]}>
           <div
-            className="exercise-progress-fill"
+            className={styles["exercise-progress-fill"]}
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        <main className="exercise-card">
-          <span className="section-eyebrow">
+        <main className={styles["exercise-card"]}>
+          <span className={styles["section-eyebrow"]}>
             QUESTION {currentQuestion + 1}
           </span>
 
@@ -203,22 +203,17 @@ const ExercisePage = () => {
           </h2>
 
           {question.type === "multiple-choice" ? (
-            <div className="exercise-options">
+            <div className={styles["exercise-options"]}>
               {question.options.map((option, index) => {
                 const isSelected = selectedAnswer === option;
                 const isCorrectOption = option === question.correctAnswer;
 
-                let optionClass = "exercise-option";
-
-                if (isSelected) optionClass += " is-selected";
-
-                if (isAnswered && isCorrectOption) {
-                  optionClass += " is-correct";
-                }
-
-                if (isAnswered && isSelected && !isCorrect) {
-                  optionClass += " is-incorrect";
-                }
+                const optionClass = [
+                  styles["exercise-option"],
+                  isSelected && styles["is-selected"],
+                  isAnswered && isCorrectOption && styles["is-correct"],
+                  isAnswered && isSelected && !isCorrect && styles["is-incorrect"],
+                ].filter(Boolean).join(" ");
 
                 return (
                   <button
@@ -227,24 +222,24 @@ const ExercisePage = () => {
                     onClick={() => setSelectedAnswer(option)}
                     disabled={isAnswered}
                   >
-                    <span className="option-letter">
+                    <span className={styles["option-letter"]}>
                       {String.fromCharCode(65 + index)}
                     </span>
 
                     <span>{option}</span>
 
                     {isAnswered && isCorrectOption && (
-                      <span className="option-status">✓</span>
+                      <span className={styles["option-status"]}>✓</span>
                     )}
                   </button>
                 );
               })}
             </div>
           ) : (
-            <div className="exercise-fill-answer">
+            <div className={styles["exercise-fill-answer"]}>
               <input
                 type="text"
-                className="exercise-fill-input"
+                className={styles["exercise-fill-input"]}
                 placeholder="Type your answer..."
                 value={selectedAnswer ?? ""}
                 onChange={(event) => setSelectedAnswer(event.target.value)}
@@ -257,8 +252,8 @@ const ExercisePage = () => {
 
           {isAnswered && (
             <div
-              className={`exercise-feedback ${
-                isCorrect ? "feedback-correct" : "feedback-incorrect"
+              className={`${styles["exercise-feedback"]} ${
+                isCorrect ? styles["feedback-correct"] : styles["feedback-incorrect"]
               }`}
             >
               <h3>{isCorrect ? "Correct answer!" : "Not quite right"}</h3>
@@ -266,17 +261,17 @@ const ExercisePage = () => {
               <p>{question.explanation}</p>
 
               {!isCorrect && question.type === "fill-in-the-blanks" && (
-                <p className="exercise-correct-answer">
+                <p className={styles["exercise-correct-answer"]}>
                   Correct answer: <strong>{question.correctAnswer}</strong>
                 </p>
               )}
             </div>
           )}
 
-          <div className="exercise-actions">
+          <div className={styles["exercise-actions"]}>
             {!isAnswered ? (
               <button
-                className="exercise-primary-button"
+                className={styles["exercise-primary-button"]}
                 onClick={handleCheckAnswer}
                 disabled={!selectedAnswer?.trim()}
               >
@@ -285,7 +280,7 @@ const ExercisePage = () => {
               </button>
             ) : (
               <button
-                className="exercise-primary-button"
+                className={styles["exercise-primary-button"]}
                 onClick={handleNextQuestion}
               >
                 {currentQuestion === questions.length - 1
@@ -297,7 +292,7 @@ const ExercisePage = () => {
           </div>
         </main>
 
-        <div className="exercise-footer">
+        <div className={styles["exercise-footer"]}>
           <span>Take your time. Learning is about understanding.</span>
           <span>{lesson.title}</span>
         </div>
