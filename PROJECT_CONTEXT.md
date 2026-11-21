@@ -1,10 +1,10 @@
-# English Path — Project Context
+# Englishly — Project Context
 
 > This document is the primary source of context for AI coding assistants. Read it before changing code.
 
 ## 1. Product overview
 
-**English Path** is a web platform for learning English. Its product direction is between a structured course and an interactive language-learning trainer.
+**Englishly** is a web platform for learning English. Its product direction is between a structured course and an interactive language-learning trainer.
 
 Main product areas:
 - **Roadmap** — a predefined English curriculum from CEFR A1 to C1.
@@ -45,7 +45,7 @@ Do not describe placeholder functionality as implemented functionality.
 - TypeScript 6
 - Vite 8
 - React Router DOM 7
-- CSS (page-level CSS files and global CSS variables)
+- CSS Modules for component/page styles, plus global CSS variables and light/dark theme tokens
 - modern-normalize
 
 Available scripts (run from `frontend/`):
@@ -72,7 +72,7 @@ frontend/
     components/
       AppLayout/
         AppLayout.tsx
-        AppLayout.css
+        AppLayout.module.css
     data/
       roadmap.ts
       learningData.ts
@@ -97,7 +97,7 @@ frontend/
       learning.ts
 ```
 
-Each page generally has its own folder and CSS file. Some pages currently have only a TSX file.
+Page and component styles use CSS Modules (`*.module.css`). Shared design tokens and theme variables live in `styles/tokens.css` and `styles/themes.css`; global base styles live in `styles/globals.css`.
 
 ## 5. Routing
 
@@ -167,7 +167,7 @@ Follow these conventions unless there is a clear, discussed reason to change the
 - Use TypeScript and preserve useful type safety.
 - Use **arrow functions** for project functions and React components; avoid ordinary function declarations.
 - Keep components reasonably focused. Extract reusable logic only when it improves clarity or avoids real duplication.
-- Keep page styles in their page/component CSS files and shared design tokens in `styles/globals.css`.
+- Keep page/component styles in CSS Modules (`*.module.css`). Keep shared design tokens in `styles/tokens.css`, theme palettes in `styles/themes.css`, and global base styles in `styles/globals.css`.
 - Reuse existing types and data structures instead of introducing duplicate models.
 - Prefer simple architecture appropriate for a school project that aims to resemble a maintainable production application.
 - Do not add dependencies just because they are popular. Explain why a dependency is needed.
