@@ -6,6 +6,16 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 
 **Frontend prototype / foundation stage.** The project has a working navigation and learning flow for the currently populated sample content. Most product features are not yet connected to a backend.
 
+## Design system status
+
+| Area | Status | Notes |
+|---|---|---|
+| Brand | In progress | Product name is Englishly; custom snake-inspired logo is still pending |
+| Design tokens | Implemented | Shared spacing, radius, shadow and layout tokens |
+| Light / dark themes | Implemented in code | Green palettes; local theme preference is restored before route rendering |
+| CSS Modules | Implemented for current pages | AppLayout, Roadmap, Topic, Lesson, Exercise, Placeholder, Login and Register |
+| Visual verification | Pending | Must be checked in the local browser at desktop and mobile sizes |
+
 ## Feature status
 
 | Area | Status | Notes |
@@ -68,10 +78,10 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 
 ## Next recommended milestone
 
-Stabilize and improve the existing frontend prototype:
-1. Audit the current user flows and fix reproducible bugs without changing working behavior unnecessarily.
-2. Review the CSS structure and redesign the visual system consistently across global styles, layout and pages.
-3. Keep responsive behavior and accessibility in scope during the CSS work.
-4. After the visual pass, review data organization and remove unnecessary hardcoding or duplication.
-5. Evaluate libraries such as Zustand, TanStack Query, React Hook Form, Zod or Lucide only when a concrete need justifies them; none of these are currently installed.
-6. Add automated tests for progress update rules and answer checking when the core behavior is stable.
+1. Pull the current `frontend` branch and verify the visual redesign in the local browser.
+2. Check light/dark themes on every route, especially Exercise feedback, inputs, cards and auth pages.
+3. Check responsive layouts at desktop, tablet and mobile widths; fix any visual regressions.
+4. Finish the Englishly brand identity and snake-inspired logo.
+5. After visual verification, review data organization and remove unnecessary hardcoding or duplication.
+6. Evaluate libraries such as Zustand, TanStack Query, React Hook Form, Zod or Lucide only when a concrete need justifies them; none of these are currently installed.
+7. Add automated tests for progress update rules and answer checking when the core behavior is stable.
