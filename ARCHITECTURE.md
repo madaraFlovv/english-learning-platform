@@ -65,7 +65,7 @@ Shared domain types. These define the shape of levels, topics, lessons, exercise
 Contains domain operations that should not be coupled to page rendering. `progressService.ts` exports a pure function that returns updated progress after lesson completion. The current `authService.ts` is a placeholder and only logs registration data; it is not a secure authentication implementation.
 
 ### `styles/`
-Global CSS and design tokens. Page-specific CSS remains next to the corresponding page.
+Global base styles, shared design tokens and theme palettes. Page/component styling uses CSS Modules (`*.module.css`) so local selectors do not leak across routes. `tokens.css` defines spacing, radii, shadows and layout dimensions; `themes.css` defines semantic light/dark color variables; `globals.css` imports both and provides base styles.
 
 ## Current data relationships
 
