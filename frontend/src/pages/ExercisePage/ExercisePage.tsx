@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { learningData } from "../../data/learningData";
+import { useProgress } from "../../context/ProgressContext";
 
 import "./ExercisePage.css";
 
@@ -11,6 +12,7 @@ const normalizeAnswer = (answer: string) => {
 
 const ExercisePage = () => {
   const { lessonId } = useParams();
+  const { completeLesson } = useProgress();
 
   const lesson = learningData.lessons.find((item) => item.id === lessonId);
 
@@ -147,6 +149,8 @@ const ExercisePage = () => {
 
   const handleNextQuestion = () => {
     if (currentQuestion === questions.length - 1) {
+      const finalScore = Math.round((score / questions.length) * 100);
+      completeLesson(lesson.id, finalScore);
       setIsFinished(true);
       return;
     }
