@@ -77,10 +77,11 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 
 ## Current next step
 
-Complete the mock progress loop:
-1. Agree on what counts as a completed lesson.
-2. Introduce a small progress layer without localStorage or backend persistence for now.
-3. Update progress after the exercise result.
-4. Verify that Roadmap and Topic pages reflect the updated state.
+Stabilize and improve the existing frontend prototype before adding new infrastructure:
+1. Audit the current application flows and fix reproducible bugs.
+2. Redesign and standardize CSS: global design tokens, typography, spacing, shared UI patterns, page styles and responsive behavior.
+3. Review data access and reduce avoidable duplication/hardcoding without changing curriculum IDs or breaking the existing learning flow.
+4. Evaluate additional libraries only where they simplify a real problem and are appropriate for the current project size.
+5. Add automated tests for progress update rules and answer checking.
 
-Do not start the backend or AI integration before the frontend data flow and requirements are clear.
+The mock progress loop is already implemented in React Context and updates Roadmap/Topic UI, but it is in-memory only. Do not start backend or AI integration before the frontend flow and requirements are clear.
