@@ -220,53 +220,74 @@ const LandingPage = () => {
         </div>
 
         <div className="topics-list">
-          {topicCards.map((topic, index) => (
-            <article
-              key={topic.id}
-              className={`topic-card ${topic.status}-topic`}
-            >
-              <div className="topic-number">
-                {String(index + 1).padStart(2, "0")}
-              </div>
+          {topicCards.map((topic, index) => {
+            const cardContent = (
+              <>
+                <div className="topic-number">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
 
-              <div className="topic-content">
-                <div className="topic-title-row">
-                  <h3>{topic.title}</h3>
+                <div className="topic-content">
+                  <div className="topic-title-row">
+                    <h3>{topic.title}</h3>
 
-                  <span className={`topic-status ${topic.status}-status`}>
-                    {topic.status === "completed" && "Completed"}
-                    {topic.status === "in-progress" && "In progress"}
-                    {topic.status === "available" && "Available"}
-                    {topic.status === "locked" && "Locked"}
+                    <span className={`topic-status ${topic.status}-status`}>
+                      {topic.status === "completed" && "Completed"}
+                      {topic.status === "in-progress" && "In progress"}
+                      {topic.status === "available" && "Available"}
+                      {topic.status === "locked" && "Locked"}
+                    </span>
+                  </div>
+
+                  <p>{topic.description}</p>
+
+                  {topic.status !== "locked" && (
+                    <div className="topic-progress-track">
+                      <div
+                        className="topic-progress-fill"
+                        style={{ width: `${topic.topicProgress}%` }}
+                      />
+                    </div>
+                  )}
+
+                  <span className="topic-lessons">
+                    {topic.lessons.length} lessons
+                    {topic.status !== "locked" &&
+                      ` · ${topic.completedCount} completed`}
                   </span>
                 </div>
 
-                <p>{topic.description}</p>
-
-                {topic.status !== "locked" && (
-                  <div className="topic-progress-track">
-                    <div
-                      className="topic-progress-fill"
-                      style={{ width: `${topic.topicProgress}%` }}
-                    />
-                  </div>
-                )}
-
-                <span className="topic-lessons">
-                  {topic.lessons.length} lessons
-                  {topic.status !== "locked" &&
-                    ` · ${topic.completedCount} completed`}
+                <span className="topic-arrow">
+                  {topic.status === "completed" && "✓"}
+                  {topic.status === "in-progress" && "→"}
+                  {topic.status === "available" && "→"}
+                  {topic.status === "locked" && "⌑"}
                 </span>
-              </div>
+              </>
+            );
 
-              <span className="topic-arrow">
-                {topic.status === "completed" && "✓"}
-                {topic.status === "in-progress" && "→"}
-                {topic.status === "available" && "→"}
-                {topic.status === "locked" && "⌑"}
-              </span>
-            </article>
-          ))}
+            return topic.status === "locked" ? (
+              <article
+                key={topic.id}
+                className={`topic-card ${topic.status}-topic`}
+              >
+                {cardContent}
+              </article>
+            ) : (
+              <Link
+                key={topic.id}
+                to={`/topic/${topic.id}`}
+                className={`topic-card ${topic.status}-topic`}
+                style={{
+                  color: "inherit",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                }}
+              >
+                {cardContent}
+              </Link>
+            );
+          })}
         </div>
       </section>
 

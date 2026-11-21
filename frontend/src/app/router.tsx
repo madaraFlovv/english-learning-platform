@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../components/AppLayout/AppLayout";
 
 import LandingPage from "../pages/LandingPage/LandingPage";
+import TopicPage from "../pages/TopicPage/TopicPage";
 import LessonPage from "../pages/LessonPage/LessonPage";
 import ExercisePage from "../pages/ExercisePage/ExercisePage";
 
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/topic/:topicId",
+        element: <TopicPage />,
       },
       {
         path: "/lesson/:lessonId",
