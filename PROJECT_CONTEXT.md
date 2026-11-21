@@ -20,6 +20,9 @@ The curriculum is predefined and maintained as application content. **AI must no
 The repository currently contains a frontend prototype. The app uses local TypeScript data and mock progress. There is no production backend, database, real authentication, persistent user progress, or AI integration yet.
 
 Implemented:
+- Initial Placement Test flow with 20 typed questions spanning A1–C1, mixed choice/text-input answers, progress indicator and result breakdown.
+- Deterministic placement scoring service: a level is passed at 75% or more; the estimated level is the highest consecutive level passed from A1 upward.
+- Placement result updates the current starting level in the in-memory Progress Context and the test is reachable from `/placement-test` and the Roadmap header.
 - React application entry point and React Router configuration.
 - Shared application layout with sidebar navigation.
 - Roadmap page with level, topic and lesson progress derived from mock data.
@@ -75,6 +78,7 @@ frontend/
         AppLayout.module.css
     data/
       roadmap.ts
+      placementQuestions.ts
       learningData.ts
       mockProgress.ts
       exercises/
@@ -86,10 +90,12 @@ frontend/
       TopicPage/
       LessonPage/
       ExercisePage/
+      PlacementTestPage/
       LoginPage/
       RegisterPage/
       PlaceholderPage/
     services/
+      placementService.ts
       authService.ts
     styles/
       globals.css
@@ -109,6 +115,7 @@ Routes are configured in `frontend/src/app/router.tsx` and rendered through `Rou
 | `/topic/:topicId` | TopicPage | Lessons in a topic |
 | `/lesson/:lessonId` | LessonPage | Lesson content |
 | `/exercise/:lessonId` | ExercisePage | Exercises for a lesson |
+| `/placement-test` | PlacementTestPage | Initial level assessment and result |
 | `/ai` | PlaceholderPage | Future AI Tutor |
 | `/account` | PlaceholderPage | Future account |
 | `/login` | LoginPage | Login UI only |
@@ -124,6 +131,8 @@ Core types are in `frontend/src/types/learning.ts`.
 - `Topic` — belongs to a level through `levelId`.
 - `Lesson` — belongs to a topic through `topicId`; includes estimated time and typed content blocks.
 - `ExerciseQuestion` — belongs to a lesson through `lessonId`; currently discriminated into `multiple-choice` and `fill-in-the-blanks`.
+- `PlacementTestQuestion` — a placement question with CEFR level, prompt, answer type, correct answer and explanation.
+- `PlacementTestResult` — estimated CEFR level, total correct answers and per-level pass breakdown.
 - `UserProgress` — mock progress including current level, streak, coins, completed count and per-lesson progress.
 - `UserProfile` — basic user profile type.
 - `LearningData` — levels, topics, lessons and exercises.
@@ -152,6 +161,14 @@ Data sources:
 - Show not-found states for unknown IDs.
 - Lesson content is rendered according to the `LessonContentBlock` discriminated union.
 - Lessons without content display a coming-soon state.
+
+### Placement test
+- `data/placementQuestions.ts` contains the initial 20 questions: four for each CEFR band from A1 to C1.
+- `PlacementTestPage` stores answers while the test is open and displays the final breakdown.
+- `placementService.ts` normalizes answers and requires at least 75% correct in each level band to pass it.
+- The estimate advances through consecutive passed bands and stops at the first failed band; this prevents a few advanced answers from compensating for missing foundations.
+- The result updates `currentLevelId` through `ProgressContext`. This is in-memory prototype state and resets on reload.
+- The test checks grammar and vocabulary only; it is an indicative placement estimate, not an official CEFR assessment.
 
 ### Exercises
 - Filters questions by `lessonId` and sorts by `order`.
