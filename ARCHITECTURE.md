@@ -30,9 +30,10 @@ React application (frontend/src)
   |     +-- LoginPage
   |     +-- RegisterPage
   |
-  +-- data/       local curriculum, lesson content, exercises, mock progress
+  +-- context/    shared reactive progress state
+  +-- data/       local curriculum, lesson content, exercises, initial mock progress
   +-- types/      shared TypeScript domain types
-  +-- services/   service layer placeholders
+  +-- services/   progress update rules and service placeholders
   +-- styles/     global design tokens and styles
 ```
 
@@ -57,8 +58,11 @@ Static application content and prototype data:
 ### `types/`
 Shared domain types. These define the shape of levels, topics, lessons, exercises, user progress and profile.
 
+### `context/`
+`ProgressContext.tsx` exposes the current in-memory `UserProgress` and a `completeLesson` action to pages through React Context. The provider is mounted around the router in `App.tsx` so all route pages share the same state.
+
 ### `services/`
-A place for communication with external systems. The current `authService.ts` is a placeholder and only logs registration data; it is not a secure authentication implementation.
+Contains domain operations that should not be coupled to page rendering. `progressService.ts` exports a pure function that returns updated progress after lesson completion. The current `authService.ts` is a placeholder and only logs registration data; it is not a secure authentication implementation.
 
 ### `styles/`
 Global CSS and design tokens. Page-specific CSS remains next to the corresponding page.
@@ -100,6 +104,14 @@ IDs are important references. Do not casually rename them because roadmap, lesso
 5. Keeps current answer, feedback and score in React component state.
 6. Displays a result at the end.
 7. Does not currently persist the result or update mock progress.
+
+## Progress state rules
+
+- `ProgressContext` owns the reactive in-memory `UserProgress` state.
+- `progressService.ts` owns the pure update rule and does not depend on React.
+- Completing an exercise marks the lesson as `completed` and stores the score percentage.
+- `completedLessonsCount` is recalculated from lesson records to avoid count drift.
+- The context is a temporary mock implementation. It can later be replaced with API-backed state while preserving the page-facing progress interface.
 
 ## Planned evolution (not implemented yet)
 
