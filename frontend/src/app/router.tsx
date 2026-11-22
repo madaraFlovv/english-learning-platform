@@ -7,6 +7,7 @@ import TopicPage from "../pages/TopicPage/TopicPage";
 import LessonPage from "../pages/LessonPage/LessonPage";
 import ExercisePage from "../pages/ExercisePage/ExercisePage";
 import PlacementTestPage from "../pages/PlacementTestPage/PlacementTestPage";
+import AccountPage from "../pages/AccountPage/AccountPage";
 
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
@@ -48,12 +49,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/account",
-        element: (
-          <PlaceholderPage
-            title="Account"
-            description="Your profile, learning statistics and personal settings will be available here."
-          />
-        ),
+        element: <AccountPage />,
       },
     ],
   },
