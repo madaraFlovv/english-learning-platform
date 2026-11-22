@@ -70,7 +70,8 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 - `frontend/src/context/ProgressContext.tsx` — current/verified level rules and in-memory progress.
 - `frontend/src/data/placementQuestions.ts` — initial 20-question A1–C1 bank.
 - `frontend/src/services/placementService.ts` — deterministic placement scoring.
-- `frontend/src/services/authService.ts` — registration placeholder.
+- `frontend/src/services/authService.ts` — explicit demo registration result; it does not log or transmit credentials.
+- `API_CONTRACT.md` — draft API endpoint and security contract; no API is implemented yet.
 
 ## Known limitations / things to verify
 
@@ -80,7 +81,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 4. Lesson content and exercise coverage are incomplete across the curriculum.
 5. Login/register forms are not connected to a real authentication service.
 6. AI Tutor remains a generic placeholder. Account is an initial UI backed by mock progress.
-7. No backend, database, API contract, test runner or deployment configuration is currently present in the repository.
+7. No backend, database, implemented API, test runner or deployment configuration is currently present. `API_CONTRACT.md` is a planning draft only.
 8. The current repository tree has the application nested under `frontend/`; run npm commands from that directory.
 
 ## Next recommended milestone
