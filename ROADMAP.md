@@ -86,16 +86,14 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 
 ## Current next step
 
-1. Verify Roadmap level tabs and locked-level previews in the browser; run build and lint checks.
-2. Add automated tests for placement scoring and level-selection rules.
-3. Standardize curriculum, profile and progress access behind feature services (authentication remains a placeholder).
-4. Review and agree on the draft API contract before implementing backend endpoints.
-5. Expand A1 learning content with Russian explanations and English examples plus translations.
-6. Build onboarding from registration through placement test to the recommended Roadmap level.
+1. Pull the latest frontend branch and run build/lint locally.
+2. Manually verify routes, placement test, lesson exercises, progress updates and account views.
+3. Choose the backend framework and database, then finalize the API contract and initial schema.
+4. Implement the basic backend and connect the existing feature services.
+5. Add module-based curriculum and module assessments as part of the curriculum redesign.
+6. Return to visual redesign after the basic backend flow works.
 
-The verified maximum, current learning level and lesson progress currently live in React Context only. They reset on reload and will later need to be associated with the authenticated user on the backend.
-
-
+The current verified maximum, current learning level and lesson progress remain in React Context only. They reset on reload and must later be persisted for the authenticated user.
 ## Additional product decisions (planned, not implemented)
 
 - [ ] Restructure curriculum as CEFR level → modules → lessons → exercises.
