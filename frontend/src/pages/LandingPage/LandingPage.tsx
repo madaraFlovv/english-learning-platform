@@ -4,10 +4,11 @@ import styles from "./LandingPage.module.css";
 
 import { Link } from "react-router-dom";
 
-import { learningData } from "../../data/roadmap";
+import { getLearningData } from "../../services/curriculumService";
 import { useProgress } from "../../context/ProgressContext";
 
 const LandingPage = () => {
+  const learningData = getLearningData();
   const { progress: mockProgress, setCurrentLevel } = useProgress();
   const [selectedLevelId, setSelectedLevelId] = useState(mockProgress.currentLevelId);
 
