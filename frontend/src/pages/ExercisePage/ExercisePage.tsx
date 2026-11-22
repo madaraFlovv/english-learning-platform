@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { learningData } from "../../data/learningData";
+import { getExercisesByLesson, getLevelById, getLessonById, getTopicById } from "../../services/curriculumService";
 import { useProgress } from "../../context/ProgressContext";
 import { isLevelUnlocked } from "../../services/levelAccessService";
 
@@ -15,11 +15,9 @@ const ExercisePage = () => {
   const { lessonId } = useParams();
   const { completeLesson, progress: userProgress } = useProgress();
 
-  const lesson = learningData.lessons.find((item) => item.id === lessonId);
+  const lesson = lessonId ? getLessonById(lessonId) : undefined;
 
-  const questions = learningData.exercises
-    .filter((exercise) => exercise.lessonId === lessonId)
-    .sort((first, second) => first.order - second.order);
+  const questions = lessonId ? getExercisesByLesson(lessonId) : [];
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -53,9 +51,9 @@ const ExercisePage = () => {
     );
   }
 
-  const lessonTopic = learningData.topics.find((topic) => topic.id === lesson.topicId);
+  const lessonTopic = getTopicById(lesson.topicId);
   const lessonLevel = lessonTopic
-    ? learningData.levels.find((level) => level.id === lessonTopic.levelId)
+    ? getLevelById(lessonTopic.levelId)
     : undefined;
 
   if (lessonLevel && !isLevelUnlocked(lessonLevel.id, userProgress.highestVerifiedLevelId)) {
