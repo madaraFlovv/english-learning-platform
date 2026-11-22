@@ -1,9 +1,10 @@
-import { levels } from "../data/roadmap";
+import { getLevels } from "./curriculumService";
 
 export const isLevelUnlocked = (
   levelId: string,
   highestVerifiedLevelId: string | null,
 ): boolean => {
+  const levels = getLevels();
   const targetLevel = levels.find((level) => level.id === levelId);
 
   if (!targetLevel) return false;
