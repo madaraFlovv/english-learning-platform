@@ -152,7 +152,7 @@ Data sources:
 ### Roadmap
 - Reads the current user progress through `useProgress()` from `ProgressContext`.
 - Displays all CEFR levels as tabs. Selecting an unlocked level updates `currentLevelId`; selecting a locked level only changes the local preview and does not unlock it or change the user's active learning level.
-- Locked-level previews show the curriculum outline, while topics and lessons remain inaccessible until the level is verified. This is a UI rule only; future backend endpoints must enforce access independently.
+- Locked-level previews show the curriculum outline, while topic, lesson and exercise routes show a locked state until the level is verified. This is a UI rule only; future backend endpoints must enforce access independently.
 - Uses `progress.currentLevelId` to select the current level.
 - Calculates level and topic completion from `lessonProgress`.
 - Topic availability is currently derived from the completion state of preceding topics.
