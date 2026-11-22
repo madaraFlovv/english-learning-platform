@@ -13,3 +13,5 @@
 .auth-link{color:var(--color-primary-strong);font-weight:850;text-decoration:none}
 .auth-link:hover{text-decoration:underline}
 @media(max-width:480px){.auth-page{padding:16px}.auth-card{border-radius:20px}}
+
+.auth-message{margin:0;color:var(--color-text-secondary);font-size:12px;line-height:1.5}
