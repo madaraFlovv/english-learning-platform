@@ -170,3 +170,40 @@ The exact backend framework, database and authentication strategy have not yet b
 - Add rate limiting and cost controls to AI endpoints.
 - Treat user-provided text as untrusted input; do not allow prompt injection to override system rules.
 - Avoid logging passwords, tokens or other secrets.
+
+
+## API-ready frontend boundaries
+
+The frontend should depend on application services rather than making HTTP requests from page components.
+
+Target data flow:
+
+```text
+Page / Component
+      |
+      v
+Context or feature hook (shared client state)
+      |
+      v
+Feature service (auth, curriculum, progress, placement)
+      |
+      +---- mock implementation (current prototype)
+      |
+      +---- HTTP API implementation (future backend)
+                    |
+                    v
+                Backend API
+```
+
+Rules for the transition:
+- Keep React components unaware of endpoint URLs, HTTP headers and response parsing.
+- Keep pure domain calculations (for example, scoring a placement test or calculating a best lesson score) separate from network requests.
+- Define request/response DTOs at the API boundary; do not automatically treat every backend response as trusted domain data.
+- Use one shared HTTP client for the base URL, JSON parsing, credentials/session behavior and normalized API errors.
+- Read the API base URL from a Vite environment variable such as `VITE_API_BASE_URL`. This value is public configuration, never a secret.
+- Keep provider keys, database credentials, password hashes and signing secrets exclusively on the backend.
+- Prefer an HttpOnly, Secure, SameSite cookie-based session for a browser app when the eventual backend supports it. Do not put long-lived authentication tokens in localStorage.
+- Backend authorization must validate ownership of progress and profile records. Frontend route guards and locked UI are only presentation, not security.
+- Replace mock service implementations behind stable feature-service interfaces; avoid changing page components just because the data source changes.
+
+Do not add an unused HTTP client or fake API endpoints before the backend contract is agreed. The current prototype can be prepared through service boundaries and a documented contract first.
