@@ -102,6 +102,7 @@ export type LessonProgress = {
 export type UserProgress = {
   userId: string;
   currentLevelId: string;
+  highestVerifiedLevelId: string | null;
   streakDays: number;
   coins: number;
   completedLessonsCount: number;
