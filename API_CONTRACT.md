@@ -43,6 +43,18 @@ Only allowlisted fields such as display name and avatar URL should be editable h
 
 Curriculum is curated application content. The AI tutor must not generate or replace the canonical curriculum.
 
+## Modules and module assessments (planned extension)
+
+The current curriculum endpoints describe levels, topics and lessons. The product roadmap now plans a level → module → lesson → exercise hierarchy. Before implementing this feature, revise the curriculum contract and data model to include:
+
+| Method | Proposed endpoint | Purpose |
+|---|---|---|
+| GET | /modules/:moduleId | Read a module and its lesson outline |
+| GET | /modules/:moduleId/assessment | Read the module assessment |
+| POST | /modules/:moduleId/assessment-attempts | Submit an assessment attempt; the server calculates the result and unlock decision |
+| GET | /users/me/module-progress | Read the current user's module completion and assessment status |
+
+These are proposals, not implemented or finalized endpoints. A successful assessment may confirm prior knowledge and unlock the next module without requiring lesson completion. The backend must validate the attempt and record whether the module was completed through lessons or passed directly by assessment.
 ## Progress and placement
 
 | Method | Endpoint | Purpose |
