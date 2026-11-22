@@ -35,7 +35,7 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 - [x] Show placement result and set the in-memory starting level
 - [ ] Expand and validate the question bank; add automated scoring tests
 - [ ] Build registration → onboarding → placement → roadmap flow
-- [ ] Add empty, loading and error states where relevant
+- [ ] Add async loading, empty and error states as API-backed features are connected
 - [ ] Review responsive layout and accessibility
 
 ## Phase 3 — Account and roadmap experience
@@ -53,7 +53,7 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 
 - [ ] Select backend framework based on project needs and maintainability
 - [ ] Define and version API contract before wiring frontend requests
-- [ ] Add shared HTTP client and normalized API error handling
+- [x] Add shared HTTP client and normalized API error handling
 - [ ] Design relational database schema
 - [ ] Add migrations and seed data
 - [ ] Implement registration and login securely
@@ -94,3 +94,24 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 6. Build onboarding from registration through placement test to the recommended Roadmap level.
 
 The verified maximum, current learning level and lesson progress currently live in React Context only. They reset on reload and will later need to be associated with the authenticated user on the backend.
+
+
+## Additional product decisions (planned, not implemented)
+
+- [ ] Restructure curriculum as CEFR level → modules → lessons → exercises.
+- [ ] Add an end-of-module assessment.
+- [ ] Let learners attempt a module test before studying its lessons; passing confirms prior knowledge and unlocks the next module.
+- [ ] Track whether a module was completed through lessons or passed directly by assessment.
+- [ ] Preserve placement-test history and module-test attempts in user progress.
+
+## Frontend integration foundation checkpoint
+
+- [x] Centralize curriculum reads behind curriculumService.
+- [x] Centralize profile reads behind profileService.
+- [x] Centralize progress reads and updates behind progressService.
+- [x] Add a shared API client with JSON parsing, cookie credentials and normalized errors.
+- [x] Keep login and registration explicit demo placeholders; do not transmit credentials before backend endpoints exist.
+- [ ] Run local npm run build and npm run lint after pulling the current branch.
+- [ ] Manually verify all routes and key learning flows in the browser.
+
+The frontend is prepared for backend integration at the service/API boundary. This does not mean all planned product functionality or content is implemented. The next engineering milestone is backend selection, database schema and implementation of the agreed API contract. Return to visual redesign after the basic backend flow works.
