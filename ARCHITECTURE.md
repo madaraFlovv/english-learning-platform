@@ -64,7 +64,7 @@ Shared domain types. These define the shape of levels, topics, lessons, exercise
 `ProgressContext.tsx` exposes the in-memory `UserProgress`, lesson completion, current-level selection and verified-level recording actions to pages through React Context. The provider is mounted around the router in `App.tsx` so all route pages share the same state.
 
 ### `services/`
-Contains domain operations that should not be coupled to page rendering. `progressService.ts` exports a pure function that returns updated progress after lesson completion. The current `authService.ts` is a placeholder and only logs registration data; it is not a secure authentication implementation.
+Contains domain operations that should not be coupled to page rendering. `progressService.ts` provides the mock progress read adapter and pure update rules for level selection, placement verification and lesson completion. `profileService.ts` provides the mock profile read adapter. Pages and React Context should use these feature services instead of importing mock data directly. The current `authService.ts` is a placeholder that reports registration as not configured; it does not transmit or log credentials.
 
 ### `styles/`
 Global base styles, shared design tokens and theme palettes. Page/component styling uses CSS Modules (`*.module.css`) so local selectors do not leak across routes. `tokens.css` defines spacing, radii, shadows and layout dimensions; `themes.css` defines semantic light/dark color variables; `globals.css` imports both and provides base styles.
@@ -123,11 +123,11 @@ IDs are important references. Do not casually rename them because roadmap, lesso
 
 ## Progress state rules
 
-- `ProgressContext` initializes reactive in-memory `UserProgress` state from `mockProgress.ts`.
+- `ProgressContext` initializes reactive in-memory `UserProgress` state through `getProgress()` from `progressService.ts`.
 - `highestVerifiedLevelId` stores the highest level reached by the placement test; it is not the same as the user's selected `currentLevelId`.
 - `setCurrentLevel` rejects levels above the verified maximum. Before a test has been completed, the user is limited to the initial A1 level.
 - `recordVerifiedLevel` only raises the verified maximum. Retaking the test with a lower result does not remove a previously verified level or overwrite the user's current choice.
-- `progressService.ts` owns the pure update rule and does not depend on React.
+- `progressService.ts` owns the mock progress read and pure update rules; it does not depend on React. `profileService.ts` owns the mock profile read.
 - Completing an exercise marks the lesson as `completed` and stores the best score percentage (a lower retry score does not replace a higher score).
 - `completedLessonsCount` is recalculated from lesson records to avoid count drift.
 - Roadmap and Topic pages consume the shared context, so they reflect exercise completion immediately.
