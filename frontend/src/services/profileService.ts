@@ -1,5 +1,7 @@
 import { mockUserProfile } from "../data/mockUserProfile";
 import type { UserProfile } from "../types/learning";
 
-// Mock profile adapter. The real implementation will read the authenticated user's profile from the API.
-export const getCurrentUserProfile = (): UserProfile => mockUserProfile;
+// Mock adapter. Replace this read with GET /users/me when authentication exists.
+export const getCurrentUserProfile = (): UserProfile => ({
+  ...mockUserProfile,
+});
