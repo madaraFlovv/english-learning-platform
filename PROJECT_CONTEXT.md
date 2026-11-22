@@ -25,7 +25,7 @@ Implemented:
 - Placement result records the highest verified level in the in-memory Progress Context. The user can choose a current learning level up to that verified maximum from Account.
 - React application entry point and React Router configuration.
 - Shared application layout with sidebar navigation.
-- Roadmap page with level, topic and lesson progress derived from mock data.
+- Roadmap page with level, topic and lesson progress derived from mock data; all A1–C1 levels are visible, and levels above the verified maximum can be previewed in a locked/read-only state.
 - Topic page listing lessons.
 - Lesson page rendering typed lesson content blocks.
 - Exercise page selecting questions dynamically by lesson ID, supporting multiple-choice and fill-in-the-blanks, answer feedback, score and result screen.
@@ -151,6 +151,8 @@ Data sources:
 
 ### Roadmap
 - Reads the current user progress through `useProgress()` from `ProgressContext`.
+- Displays all CEFR levels as tabs. Selecting an unlocked level updates `currentLevelId`; selecting a locked level only changes the local preview and does not unlock it or change the user's active learning level.
+- Locked-level previews show the curriculum outline, while topics and lessons remain inaccessible until the level is verified. This is a UI rule only; future backend endpoints must enforce access independently.
 - Uses `progress.currentLevelId` to select the current level.
 - Calculates level and topic completion from `lessonProgress`.
 - Topic availability is currently derived from the completion state of preceding topics.
@@ -203,6 +205,8 @@ Follow these conventions unless there is a clear, discussed reason to change the
 - Never expose AI-provider API keys or other secrets in frontend code or Vite environment variables exposed to the browser.
 - Future AI requests should go through the backend, with input validation, rate limiting, cost controls and protection against prompt injection.
 - Progress should eventually be associated with an authenticated user and stored in a database.
+- Pages should call feature services rather than making direct HTTP requests. Keep mock implementations replaceable by API-backed services; keep pure business logic separate from data fetching.
+- The future API should expose versioned, typed contracts for auth, curriculum, profile and progress. Use a shared frontend HTTP client and normalized error handling when the backend is introduced.
 - Do not introduce localStorage as a substitute for the planned account-backed progress system without discussing the trade-off first.
 
 ## 10. Instructions for AI coding assistants
