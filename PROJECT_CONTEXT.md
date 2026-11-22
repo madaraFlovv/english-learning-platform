@@ -38,7 +38,7 @@ Partially implemented / prototype only:
 - Other lessons show an exercises-coming-soon state.
 - Login and registration do not authenticate users.
 - Progress starts from `data/mockProgress.ts` and is held in React Context while the app is running. Completing an exercise updates the shared in-memory progress state and the Roadmap/Topic pages reflect it. Progress is not persisted across reloads.
-- AI Tutor remains a placeholder page. Account has an initial overview, learning-level selector and A1–C1 progress cards. Per-level completion is derived from lesson progress and the roadmap relationships; the displayed data is still mock/in-memory.
+- AI Tutor remains a placeholder page. Account has an overview, a demo profile card, learning-level selector and A1–C1 progress cards. Profile data is represented by a separate `UserProfile` model and currently comes from `data/mockUserProfile.ts`; per-level completion is derived from lesson progress. All displayed data is still mock/in-memory.
 
 Do not describe placeholder functionality as implemented functionality.
 
@@ -134,13 +134,14 @@ Core types are in `frontend/src/types/learning.ts`.
 - `PlacementTestQuestion` — a placement question with CEFR level, prompt, answer type, correct answer and explanation.
 - `PlacementTestResult` — estimated CEFR level, total correct answers and per-level pass breakdown.
 - `UserProgress` — mock progress including current learning level, highest verified level, streak, coins, completed count and per-lesson progress. Account derives its A1–C1 progress breakdown from `lessonProgress` by resolving lessons through their topics.
-- `UserProfile` — basic user profile type.
+- `UserProfile` — basic user profile type, separate from learning progress. The current UI uses a demo-only mock profile; future real profile data should come from the authenticated backend session.
 - `LearningData` — levels, topics, lessons and exercises.
 
 Data sources:
 - `data/roadmap.ts` defines levels, topic seeds, topics and lessons. Its exported `learningData.exercises` is currently an empty array.
 - `data/learningData.ts` combines roadmap data with exercise question arrays. ExercisePage imports from this aggregator.
 - `data/mockProgress.ts` contains the current hardcoded sample user progress.
+- `data/mockUserProfile.ts` contains a demo-only `UserProfile`; it must be replaced by the authenticated user's profile returned by the backend.
 - `data/exercises/lessons/presentSimple.ts` contains the current 8 exercise questions.
 - `data/exercises/lessons/lessonContent.ts` contains lesson content. Its current location is historical; avoid moving it without a deliberate refactor.
 
@@ -198,6 +199,7 @@ Follow these conventions unless there is a clear, discussed reason to change the
 - AI Tutor is a separate feature.
 - Build and validate the frontend with mock data before introducing backend complexity.
 - Authentication must eventually be handled by a backend. Never store raw passwords.
+- Keep profile identity (`UserProfile`) separate from learning state (`UserProgress`). In the frontend, only display-safe fields such as a user's name, email and avatar URL may be used. Never put passwords, password hashes, session secrets or provider API keys in the profile model or client bundle. A future backend should return only fields the signed-in user is allowed to see.
 - Never expose AI-provider API keys or other secrets in frontend code or Vite environment variables exposed to the browser.
 - Future AI requests should go through the backend, with input validation, rate limiting, cost controls and protection against prompt injection.
 - Progress should eventually be associated with an authenticated user and stored in a database.
