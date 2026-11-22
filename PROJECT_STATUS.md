@@ -70,7 +70,8 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 - `frontend/src/context/ProgressContext.tsx` — current/verified level rules and in-memory progress.
 - `frontend/src/data/placementQuestions.ts` — initial 20-question A1–C1 bank.
 - `frontend/src/services/placementService.ts` — deterministic placement scoring.
-- `frontend/src/services/authService.ts` — explicit demo registration result; it does not log or transmit credentials.
+- `frontend/src/services/authService.ts` — explicit demo login/registration results; it does not log or transmit credentials.
+- `frontend/src/services/apiClient.ts` — shared HTTP client foundation with normalized API errors; not connected to live endpoints yet.
 - `frontend/src/services/levelAccessService.ts` — shared frontend rule for checking whether a level is unlocked.
 - `frontend/src/services/curriculumService.ts` — centralized mock curriculum access used by pages and context.
 - `frontend/src/services/progressService.ts` — mock progress read plus pure rules for level selection, placement verification and lesson completion.
@@ -79,7 +80,6 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 
 ## Known limitations / things to verify
 
-1. Learning pages read roadmap data directly, while ExercisePage reads the combined aggregator. Keep this distinction in mind.
 2. Progress updates are held in React Context memory and disappear after a browser reload.
 3. Exercise completion updates the shared progress state; no server or database is involved.
 4. Lesson content and exercise coverage are incomplete across the curriculum.
@@ -94,11 +94,11 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 2. Run `npm run build` and `npm run lint` from `frontend/`; fix any issues found.
 3. Add automated tests for placement scoring and level-selection rules.
 4. Review the new Roadmap level tabs and locked-level preview in the browser.
-5. Standardize feature data access behind services before introducing HTTP requests. Curriculum, profile and progress now have service boundaries.
-6. Draft and agree on the API contract, then add the shared HTTP client and backend.
-5. Build the onboarding handoff around registration and placement results.
-6. Continue expanding A1 lesson content, with explanations in Russian and English examples with translations.
-7. Add subtle animations only after the core learning flow is stable.
+5. Run local build and lint checks after pulling the latest frontend branch; manually verify the routes and main learning flows.
+6. Select the backend framework and database, then refine the draft API contract.
+7. Implement the basic backend flow and replace mock feature-service adapters with API calls.
+8. Add module-based curriculum and module assessment support as part of the curriculum/backend redesign.
+9. Return to visual redesign after the basic backend flow works.
 
 
 ## Frontend-to-backend readiness review
