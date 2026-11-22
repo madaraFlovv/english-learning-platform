@@ -207,3 +207,10 @@ Rules for the transition:
 - Replace mock service implementations behind stable feature-service interfaces; avoid changing page components just because the data source changes.
 
 Do not add an unused HTTP client or fake API endpoints before the backend contract is agreed. The current prototype can be prepared through service boundaries and a documented contract first.
+
+
+## Curriculum service boundary
+
+Pages and feature components read curriculum through `services/curriculumService.ts`, not by importing static data modules directly. The current implementation is synchronous and backed by local mock curriculum data. This centralizes the data source without introducing an unused HTTP client.
+
+When the backend is ready, the curriculum service will become asynchronous. Add a query/cache layer (for example TanStack Query) at that stage to manage loading, caching, refetching and errors consistently.
