@@ -32,7 +32,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 | Exercise result → user progress | Implemented in mock state | Completing an exercise updates the shared Progress Context; not persistent across reloads |
 | Registration | UI / placeholder only | No real account creation |
 | Login | UI only | No authentication |
-| Account | Initial UI + per-level progress overview | Shows mock learning statistics, calculates lesson completion for A1–C1 from `lessonProgress`, and allows changing current level within the verified range |
+| Account | Initial profile + per-level progress overview | Shows a demo profile card, mock learning statistics, calculates lesson completion for A1–C1 from `lessonProgress`, and allows changing current level within the verified range |
 | AI Tutor | Placeholder | No AI provider integration |
 | Placement test | Initial frontend version implemented | 20 questions across A1–C1; deterministic level estimate; result records the highest verified level in memory |
 | Backend API | Not implemented | No server application in repository |
@@ -61,6 +61,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 - `frontend/src/data/roadmap.ts` — levels, topics and lessons.
 - `frontend/src/data/learningData.ts` — combined learning data including exercise sets.
 - `frontend/src/data/mockProgress.ts` — hardcoded progress.
+- `frontend/src/data/mockUserProfile.ts` — demo-only profile data.
 - `frontend/src/data/exercises/lessons/lessonContent.ts` — lesson content.
 - `frontend/src/data/exercises/lessons/presentSimple.ts` — 8 Present Simple questions.
 - `frontend/src/pages/ExercisePage/ExercisePage.tsx` — exercise flow.
@@ -87,7 +88,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 1. Verify the current/verified level flow and Account selector in the local browser.
 2. Run `npm run build` and `npm run lint` from `frontend/`; fix any issues found.
 3. Add automated tests for placement scoring and level-selection rules.
-4. Continue refining Account after visual verification; profile identity and persistent data require real authentication/backend work.
+4. Continue refining Account after visual verification; replace the demo profile with safe, authenticated profile data once the backend exists.
 5. Build the onboarding handoff around registration and placement results.
 6. Continue expanding A1 lesson content, with explanations in Russian and English examples with translations.
 7. Add subtle animations only after the core learning flow is stable.
