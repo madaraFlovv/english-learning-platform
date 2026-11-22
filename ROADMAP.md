@@ -85,11 +85,11 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 
 ## Current next step
 
-1. Verify the verified/current level flow and Account selector in the browser; run the production build and lint checks.
+1. Verify Roadmap level tabs and locked-level previews in the browser; run build and lint checks.
 2. Add automated tests for placement scoring and level-selection rules.
-3. Improve Account layout and content based on visual review.
-4. Build onboarding so a new user completes registration, takes the placement test and lands on the recommended Roadmap level.
+3. Standardize curriculum, profile, authentication and progress access behind feature services.
+4. Review and agree on the draft API contract before implementing backend endpoints.
 5. Expand A1 learning content with Russian explanations and English examples plus translations.
-6. Revisit subtle UI animation and typewriter effects after the core learning flow is stable.
+6. Build onboarding from registration through placement test to the recommended Roadmap level.
 
 The verified maximum, current learning level and lesson progress currently live in React Context only. They reset on reload and will later need to be associated with the authenticated user on the backend.
