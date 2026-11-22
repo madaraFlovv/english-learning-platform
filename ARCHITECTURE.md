@@ -26,7 +26,7 @@ React application (frontend/src)
   |     |     +-- ExercisePage
       |     +-- PlacementTestPage
   |     |     +-- AI placeholder
-  |     |     +-- Account placeholder
+  |     |     +-- AccountPage
   |     |
   |     +-- LoginPage
   |     +-- RegisterPage
@@ -61,7 +61,7 @@ Static application content and prototype data:
 Shared domain types. These define the shape of levels, topics, lessons, exercises, user progress and profile.
 
 ### `context/`
-`ProgressContext.tsx` exposes the current in-memory `UserProgress` and a `completeLesson` action to pages through React Context. The provider is mounted around the router in `App.tsx` so all route pages share the same state.
+`ProgressContext.tsx` exposes the in-memory `UserProgress`, lesson completion, current-level selection and verified-level recording actions to pages through React Context. The provider is mounted around the router in `App.tsx` so all route pages share the same state.
 
 ### `services/`
 Contains domain operations that should not be coupled to page rendering. `progressService.ts` exports a pure function that returns updated progress after lesson completion. The current `authService.ts` is a placeholder and only logs registration data; it is not a secure authentication implementation.
@@ -78,6 +78,7 @@ Level
               └── ExerciseQuestion (ExerciseQuestion.lessonId -> Lesson.id)
 
 UserProgress
+  ├── currentLevelId / highestVerifiedLevelId (references Level.id)
   └── LessonProgress (LessonProgress.lessonId -> Lesson.id)
 
 PlacementTestQuestion
@@ -123,6 +124,9 @@ IDs are important references. Do not casually rename them because roadmap, lesso
 ## Progress state rules
 
 - `ProgressContext` initializes reactive in-memory `UserProgress` state from `mockProgress.ts`.
+- `highestVerifiedLevelId` stores the highest level reached by the placement test; it is not the same as the user's selected `currentLevelId`.
+- `setCurrentLevel` rejects levels above the verified maximum. Before a test has been completed, the user is limited to the initial A1 level.
+- `recordVerifiedLevel` only raises the verified maximum. Retaking the test with a lower result does not remove a previously verified level or overwrite the user's current choice.
 - `progressService.ts` owns the pure update rule and does not depend on React.
 - Completing an exercise marks the lesson as `completed` and stores the best score percentage (a lower retry score does not replace a higher score).
 - `completedLessonsCount` is recalculated from lesson records to avoid count drift.
