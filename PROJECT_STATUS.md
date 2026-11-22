@@ -25,8 +25,8 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 | Roadmap UI | Prototype implemented | Uses static curriculum and mock progress; displays all A1–C1 level tabs, with locked levels available as read-only curriculum previews |
 | A1–C1 curriculum structure | Data structure implemented | Lesson content is incomplete |
 | Topic page | Implemented | Lists lessons for a topic |
-| Lesson page | Implemented | Renders available typed lesson content |
-| Exercise engine | Implemented for current question types | Multiple choice and fill-in-the-blanks |
+| Lesson page | Implemented | Renders available typed lesson content; direct access to locked levels is blocked in the UI |
+| Exercise engine | Implemented for current question types | Multiple choice and fill-in-the-blanks; locked-level exercises are blocked in the UI |
 | Present Simple exercises | Implemented | 8 questions for `present-simple` |
 | Exercises for other lessons | Not implemented | Shows coming-soon state |
 | Exercise result → user progress | Implemented in mock state | Completing an exercise updates the shared Progress Context; not persistent across reloads |
@@ -71,6 +71,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 - `frontend/src/data/placementQuestions.ts` — initial 20-question A1–C1 bank.
 - `frontend/src/services/placementService.ts` — deterministic placement scoring.
 - `frontend/src/services/authService.ts` — explicit demo registration result; it does not log or transmit credentials.
+- `frontend/src/services/levelAccessService.ts` — shared frontend rule for checking whether a level is unlocked.
 - `API_CONTRACT.md` — draft API endpoint and security contract; no API is implemented yet.
 
 ## Known limitations / things to verify
