@@ -22,7 +22,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 |---|---|---|
 | App entry and routing | Implemented | React Router routes are configured |
 | Shared app layout | Implemented | Sidebar and nested page outlet |
-| Roadmap UI | Prototype implemented | Uses static curriculum and mock progress |
+| Roadmap UI | Prototype implemented | Uses static curriculum and mock progress; displays all A1–C1 level tabs, with locked levels available as read-only curriculum previews |
 | A1–C1 curriculum structure | Data structure implemented | Lesson content is incomplete |
 | Topic page | Implemented | Lists lessons for a topic |
 | Lesson page | Implemented | Renders available typed lesson content |
@@ -88,7 +88,9 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 1. Verify the current/verified level flow and Account selector in the local browser.
 2. Run `npm run build` and `npm run lint` from `frontend/`; fix any issues found.
 3. Add automated tests for placement scoring and level-selection rules.
-4. Continue refining Account after visual verification; replace the demo profile with safe, authenticated profile data once the backend exists.
+4. Review the new Roadmap level tabs and locked-level preview in the browser.
+5. Standardize feature data access behind services before introducing HTTP requests.
+6. Draft and agree on the API contract, then add the shared HTTP client and backend.
 5. Build the onboarding handoff around registration and placement results.
 6. Continue expanding A1 lesson content, with explanations in Russian and English examples with translations.
 7. Add subtle animations only after the core learning flow is stable.
