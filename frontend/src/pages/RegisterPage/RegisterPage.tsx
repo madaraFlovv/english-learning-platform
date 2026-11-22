@@ -7,13 +7,20 @@ const RegisterPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmedPassword, setСonfirmedPassword] = useState<string>("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (password === confirmedPassword) {
-      register({ email, password });
-    } else {
-      console.log("неодинаковые пароли");
+
+    if (password !== confirmedPassword) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+
+    const result = await register({ email, password });
+
+    if (result.status === "not-configured") {
+      setMessage("Demo only: account registration is not connected yet.");
     }
   };
   return (
@@ -52,6 +59,11 @@ const RegisterPage = () => {
           <button className={styles["auth-button"]} type="submit">
             Create
           </button>
+          {message && (
+            <p className={styles["auth-message"]} role="status" aria-live="polite">
+              {message}
+            </p>
+          )}
         </form>
         <div className={styles["auth-footer"]}>
           <p>Already have an account?</p>
