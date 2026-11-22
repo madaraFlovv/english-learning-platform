@@ -2,8 +2,11 @@ import { mockProgress } from "../data/mockProgress";
 import { getLevels } from "./curriculumService";
 import type { LessonProgress, UserProgress } from "../types/learning";
 
-// Mock data adapter. Replace these reads with API requests when the backend is ready.
-export const getProgress = (): UserProgress => mockProgress;
+// Mock adapter. The returned object is copied so consumers cannot mutate the seed data.
+export const getProgress = (): UserProgress => ({
+  ...mockProgress,
+  lessonProgress: mockProgress.lessonProgress.map((item) => ({ ...item })),
+});
 
 export const selectCurrentLevelProgress = (
   currentProgress: UserProgress,
@@ -40,7 +43,10 @@ export const recordVerifiedLevelProgress = (
     (level) => level.id === currentProgress.highestVerifiedLevelId,
   );
 
-  if (currentVerifiedLevel && requestedLevel.order <= currentVerifiedLevel.order) {
+  if (
+    currentVerifiedLevel &&
+    requestedLevel.order <= currentVerifiedLevel.order
+  ) {
     return currentProgress;
   }
 
@@ -69,7 +75,10 @@ export const completeLessonProgress = (
   const updatedLessonProgress: LessonProgress = {
     lessonId,
     status: "completed",
-    bestScore: Math.max(existingLessonProgress?.bestScore ?? 0, normalizedScore),
+    bestScore: Math.max(
+      existingLessonProgress?.bestScore ?? 0,
+      normalizedScore,
+    ),
     completedAt: new Date().toISOString(),
   };
 
