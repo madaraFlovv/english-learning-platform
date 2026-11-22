@@ -6,7 +6,7 @@ import {
 } from "react";
 
 import { mockProgress } from "../data/mockProgress";
-import { levels } from "../data/roadmap";
+import { getLevels } from "../services/curriculumService";
 import { completeLessonProgress } from "../services/progressService";
 import type { UserProgress } from "../types/learning";
 
@@ -25,6 +25,7 @@ type ProgressProviderProps = {
 
 export const ProgressProvider = ({ children }: ProgressProviderProps) => {
   const [progress, setProgress] = useState<UserProgress>(mockProgress);
+  const levels = getLevels();
 
   const setCurrentLevel = (levelId: string) => {
     const requestedLevel = levels.find((level) => level.id === levelId);
