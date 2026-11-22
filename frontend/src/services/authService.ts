@@ -1,13 +1,22 @@
-export type RegisterData = {
+export type AuthCredentials = {
   email: string;
   password: string;
 };
 
-export type RegisterResult = {
+export type AuthServiceResult = {
   status: "not-configured";
 };
 
-// Demo placeholder only. This does not create an account or send credentials anywhere.
-export const register = async (_data: RegisterData): Promise<RegisterResult> => ({
+// These methods intentionally do not send credentials until the backend exists.
+// Never log passwords or store them in browser storage.
+export const register = async (
+  _credentials: AuthCredentials,
+): Promise<AuthServiceResult> => ({
+  status: "not-configured",
+});
+
+export const login = async (
+  _credentials: AuthCredentials,
+): Promise<AuthServiceResult> => ({
   status: "not-configured",
 });
