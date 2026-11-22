@@ -1,6 +1,6 @@
 # Project Status
 
-Last reviewed against GitHub branch: `frontend` (2026-11-21).
+Last reviewed against GitHub branch: `frontend` (2026-11-22).
 
 ## Overall status
 
@@ -32,9 +32,9 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 | Exercise result → user progress | Implemented in mock state | Completing an exercise updates the shared Progress Context; not persistent across reloads |
 | Registration | UI / placeholder only | No real account creation |
 | Login | UI only | No authentication |
-| Account | Placeholder | No profile or statistics UI |
+| Account | Initial UI implemented | Shows mock learning statistics and allows changing current level within the verified range |
 | AI Tutor | Placeholder | No AI provider integration |
-| Placement test | Initial frontend version implemented | 20 questions across A1–C1; deterministic level estimate; result updates in-memory starting level |
+| Placement test | Initial frontend version implemented | 20 questions across A1–C1; deterministic level estimate; result records the highest verified level in memory |
 | Backend API | Not implemented | No server application in repository |
 | Database | Not implemented | No schema or migrations |
 | Persistent progress | Not implemented | Progress exists in React memory only and resets on reload |
@@ -65,6 +65,8 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 - `frontend/src/data/exercises/lessons/presentSimple.ts` — 8 Present Simple questions.
 - `frontend/src/pages/ExercisePage/ExercisePage.tsx` — exercise flow.
 - `frontend/src/pages/PlacementTestPage/PlacementTestPage.tsx` — placement test and result flow.
+- `frontend/src/pages/AccountPage/AccountPage.tsx` — account overview and current learning-level selector.
+- `frontend/src/context/ProgressContext.tsx` — current/verified level rules and in-memory progress.
 - `frontend/src/data/placementQuestions.ts` — initial 20-question A1–C1 bank.
 - `frontend/src/services/placementService.ts` — deterministic placement scoring.
 - `frontend/src/services/authService.ts` — registration placeholder.
@@ -76,16 +78,16 @@ Last reviewed against GitHub branch: `frontend` (2026-11-21).
 3. Exercise completion updates the shared progress state; no server or database is involved.
 4. Lesson content and exercise coverage are incomplete across the curriculum.
 5. Login/register forms are not connected to a real authentication service.
-6. AI and Account routes render a generic placeholder.
+6. AI Tutor remains a generic placeholder. Account is an initial UI backed by mock progress.
 7. No backend, database, API contract, test runner or deployment configuration is currently present in the repository.
 8. The current repository tree has the application nested under `frontend/`; run npm commands from that directory.
 
 ## Next recommended milestone
 
-1. Verify the Placement Test end-to-end in the local browser, including all 20 questions and result levels.
+1. Verify the current/verified level flow and Account selector in the local browser.
 2. Run `npm run build` and `npm run lint` from `frontend/`; fix any issues found.
-3. Add automated tests for the placement scoring thresholds and answer normalization.
-4. Refine the question bank after checking its educational accuracy and difficulty.
+3. Add automated tests for placement scoring and level-selection rules.
+4. Improve the Account page after reviewing its first visual version.
 5. Build the onboarding handoff around registration and placement results.
 6. Continue expanding A1 lesson content, with explanations in Russian and English examples with translations.
 7. Add subtle animations only after the core learning flow is stable.
