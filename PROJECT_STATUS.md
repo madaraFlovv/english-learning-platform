@@ -73,6 +73,8 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 - `frontend/src/services/authService.ts` — explicit demo registration result; it does not log or transmit credentials.
 - `frontend/src/services/levelAccessService.ts` — shared frontend rule for checking whether a level is unlocked.
 - `frontend/src/services/curriculumService.ts` — centralized mock curriculum access used by pages and context.
+- `frontend/src/services/progressService.ts` — mock progress read plus pure rules for level selection, placement verification and lesson completion.
+- `frontend/src/services/profileService.ts` — centralized mock profile read used by Account.
 - `API_CONTRACT.md` — draft API endpoint and security contract; no API is implemented yet.
 
 ## Known limitations / things to verify
@@ -92,7 +94,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 2. Run `npm run build` and `npm run lint` from `frontend/`; fix any issues found.
 3. Add automated tests for placement scoring and level-selection rules.
 4. Review the new Roadmap level tabs and locked-level preview in the browser.
-5. Standardize feature data access behind services before introducing HTTP requests.
+5. Standardize feature data access behind services before introducing HTTP requests. Curriculum, profile and progress now have service boundaries.
 6. Draft and agree on the API contract, then add the shared HTTP client and backend.
 5. Build the onboarding handoff around registration and placement results.
 6. Continue expanding A1 lesson content, with explanations in Russian and English examples with translations.
