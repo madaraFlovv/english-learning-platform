@@ -17,8 +17,8 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 - [x] Lesson page
 - [x] Dynamic exercise page
 - [x] Route page-level curriculum reads through `curriculumService`
-- [ ] Route profile and progress reads/writes through feature services
-- [ ] Keep mock data behind service boundaries so API implementations can replace them
+- [x] Route profile and progress reads/writes through feature services
+- [x] Keep mock data behind service boundaries so API implementations can replace them
 - [x] Add a mock progress service with a clear API
 - [x] Update progress after exercise completion
 - [x] Show updated progress on Roadmap and Topic pages
@@ -88,7 +88,7 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 
 1. Verify Roadmap level tabs and locked-level previews in the browser; run build and lint checks.
 2. Add automated tests for placement scoring and level-selection rules.
-3. Standardize curriculum, profile, authentication and progress access behind feature services.
+3. Standardize curriculum, profile and progress access behind feature services (authentication remains a placeholder).
 4. Review and agree on the draft API contract before implementing backend endpoints.
 5. Expand A1 learning content with Russian explanations and English examples plus translations.
 6. Build onboarding from registration through placement test to the recommended Roadmap level.
