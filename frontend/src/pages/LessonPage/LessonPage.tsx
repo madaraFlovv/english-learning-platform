@@ -2,7 +2,7 @@ import styles from "./LessonPage.module.css";
 
 import { Link, useParams } from "react-router-dom";
 
-import { learningData } from "../../data/roadmap";
+import { getLevelById, getLessonById, getTopicById } from "../../services/curriculumService";
 import { lessonContent } from "../../data/exercises/lessons/lessonContent";
 import { useProgress } from "../../context/ProgressContext";
 import { isLevelUnlocked } from "../../services/levelAccessService";
@@ -11,7 +11,7 @@ const LessonPage = () => {
   const { lessonId } = useParams();
   const { progress } = useProgress();
 
-  const lesson = learningData.lessons.find((item) => item.id === lessonId);
+  const lesson = lessonId ? getLessonById(lessonId) : undefined;
 
   if (!lesson) {
     return (
@@ -23,10 +23,10 @@ const LessonPage = () => {
     );
   }
 
-  const topic = learningData.topics.find((item) => item.id === lesson.topicId);
+  const topic = getTopicById(lesson.topicId);
 
   const level = topic
-    ? learningData.levels.find((item) => item.id === topic.levelId)
+    ? getLevelById(topic.levelId)
     : undefined;
 
   if (level && !isLevelUnlocked(level.id, progress.highestVerifiedLevelId)) {
