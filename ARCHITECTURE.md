@@ -216,6 +216,9 @@ Pages and feature components read curriculum through `services/curriculumService
 When the backend is ready, the curriculum service will become asynchronous. Add a query/cache layer (for example TanStack Query) at that stage to manage loading, caching, refetching and errors consistently.
 
 
+## Planned module-based curriculum (not implemented)
+
+The product direction is to evolve the current Level → Topic → Lesson → Exercise relationship into Level → Module → Lesson → Exercise. Each module will have an assessment. A learner may study its lessons or attempt the assessment immediately to demonstrate existing knowledge. A successful assessment marks the module as passed and unlocks the next module. Progress must distinguish lesson-based completion from assessment-based completion. The current Topic model and UI remain in place until this curriculum migration is deliberately implemented; do not pretend modules already exist.
 ## Shared HTTP client foundation
 
 The frontend/src/services/apiClient.ts module provides the single apiRequest<T>() entry point for future HTTP calls. It reads the public VITE_API_BASE_URL setting (default /api/v1), sends browser credentials with requests by default, parses JSON responses, handles 204 No Content, and normalizes API/network failures into ApiError (status, code, message, details). It contains no secrets and is not yet used by mock feature services. Add endpoint-specific methods only when the backend endpoints are implemented.
