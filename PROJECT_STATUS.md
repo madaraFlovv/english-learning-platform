@@ -90,17 +90,12 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 
 ## Next recommended milestone
 
-1. Verify the current/verified level flow and Account selector in the local browser.
-2. Run `npm run build` and `npm run lint` from `frontend/`; fix any issues found.
-3. Add automated tests for placement scoring and level-selection rules.
-4. Review the new Roadmap level tabs and locked-level preview in the browser.
-5. Run local build and lint checks after pulling the latest frontend branch; manually verify the routes and main learning flows.
-6. Select the backend framework and database, then refine the draft API contract.
-7. Implement the basic backend flow and replace mock feature-service adapters with API calls.
-8. Add module-based curriculum and module assessment support as part of the curriculum/backend redesign.
-9. Return to visual redesign after the basic backend flow works.
-
-
+1. Pull the latest frontend branch and run the local build and lint checks.
+2. Manually verify the main routes and learning flows in the browser.
+3. Select the backend framework and database, then refine the API contract.
+4. Implement the basic backend flow and replace mock service adapters with API calls.
+5. Add the planned module-based curriculum and module assessments during the curriculum/backend redesign.
+6. Return to visual redesign after the basic backend flow works.
 ## Frontend-to-backend readiness review
 
 The frontend integration foundation is prepared, but the product frontend is not feature-complete:
