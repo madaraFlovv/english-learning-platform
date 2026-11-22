@@ -35,10 +35,10 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 | Account | Initial profile + per-level progress overview | Shows a demo profile card, mock learning statistics, calculates lesson completion for A1–C1 from `lessonProgress`, and allows changing current level within the verified range |
 | AI Tutor | Placeholder | No AI provider integration |
 | Placement test | Initial frontend version implemented | 20 questions across A1–C1; deterministic level estimate; result records the highest verified level in memory |
-| Backend API | Not implemented | No server application in repository |
+| Backend API | Not implemented | Shared frontend HTTP client is prepared; no server application or live endpoints exist |
 | Database | Not implemented | No schema or migrations |
 | Persistent progress | Not implemented | Progress exists in React memory only and resets on reload |
-| Automated tests | Not configured in package scripts | No test runner currently listed |
+| Automated tests | Not configured in package scripts | No test runner currently listed; scoring and progress rules still need automated coverage |
 
 ## Current routes
 
@@ -99,3 +99,16 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 5. Build the onboarding handoff around registration and placement results.
 6. Continue expanding A1 lesson content, with explanations in Russian and English examples with translations.
 7. Add subtle animations only after the core learning flow is stable.
+
+
+## Frontend-to-backend readiness review
+
+The frontend integration foundation is prepared, but the product frontend is not feature-complete:
+
+- curriculumService.ts, progressService.ts and profileService.ts isolate mock data behind feature-service boundaries.
+- apiClient.ts provides a shared JSON HTTP client, cookie credentials by default, and normalized ApiError failures. It is infrastructure only; no feature service calls it until matching backend endpoints exist.
+- authService.ts explicitly reports that login and registration are not configured. The login and registration pages now show this state and do not transmit or log credentials.
+- .env.example documents the public VITE_API_BASE_URL setting. It must never contain secrets.
+- Placement scoring now reads level definitions through curriculumService and rejects an empty or incomplete level question bank.
+
+Still intentionally outside this frontend foundation milestone: real authentication, persistence, AI Tutor, module-level curriculum and skip tests, complete A1–C1 lesson/exercise content, onboarding, automated tests, and final visual polish. The browser UI still requires a local build/lint run and manual route-flow verification after pulling the latest branch. Do not claim these items are complete.
