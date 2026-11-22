@@ -1,7 +1,7 @@
 import type { ChangeEvent } from "react";
 
 import { useProgress } from "../../context/ProgressContext";
-import { levels } from "../../data/roadmap";
+import { lessons, levels, topics } from "../../data/roadmap";
 
 import styles from "./AccountPage.module.css";
 
@@ -16,6 +16,36 @@ const AccountPage = () => {
   const availableLevels = levels.filter(
     (level) => level.order <= (maximumAllowedLevel?.order ?? 1),
   );
+
+  const completedLessonIds = new Set(
+    progress.lessonProgress
+      .filter((lesson) => lesson.status === "completed")
+      .map((lesson) => lesson.lessonId),
+  );
+
+  const completedLessonsCount = completedLessonIds.size;
+
+  const levelProgress = levels.map((level) => {
+    const levelTopicIds = topics
+      .filter((topic) => topic.levelId === level.id)
+      .map((topic) => topic.id);
+    const levelLessons = lessons.filter((lesson) =>
+      levelTopicIds.includes(lesson.topicId),
+    );
+    const completedCount = levelLessons.filter((lesson) =>
+      completedLessonIds.has(lesson.id),
+    ).length;
+    const percentage = levelLessons.length
+      ? Math.round((completedCount / levelLessons.length) * 100)
+      : 0;
+
+    return {
+      ...level,
+      totalLessons: levelLessons.length,
+      completedCount,
+      percentage,
+    };
+  });
 
   const handleLevelChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setCurrentLevel(event.target.value);
@@ -42,18 +72,22 @@ const AccountPage = () => {
           <article className={styles["stat-card"]}>
             <span className={styles["stat-label"]}>Current level</span>
             <strong>{currentLevel?.code ?? "—"}</strong>
-            <span className={styles["stat-caption"]}>{currentLevel?.title ?? "Not selected"}</span>
+            <span className={styles["stat-caption"]}>
+              {currentLevel?.title ?? "Not selected"}
+            </span>
           </article>
           <article className={styles["stat-card"]}>
             <span className={styles["stat-label"]}>Verified maximum</span>
             <strong>{verifiedLevel?.code ?? "—"}</strong>
             <span className={styles["stat-caption"]}>
-              {verifiedLevel ? "Confirmed by placement test" : "Placement test not completed"}
+              {verifiedLevel
+                ? "Confirmed by placement test"
+                : "Placement test not completed"}
             </span>
           </article>
           <article className={styles["stat-card"]}>
             <span className={styles["stat-label"]}>Completed lessons</span>
-            <strong>{progress.completedLessonsCount}</strong>
+            <strong>{completedLessonsCount}</strong>
             <span className={styles["stat-caption"]}>Across all levels</span>
           </article>
           <article className={styles["stat-card"]}>
@@ -61,6 +95,49 @@ const AccountPage = () => {
             <strong>{progress.streakDays}</strong>
             <span className={styles["stat-caption"]}>Days in a row</span>
           </article>
+        </div>
+      </section>
+
+      <section className={styles["progress-section"]}>
+        <div className={styles["section-heading"]}>
+          <div>
+            <span className={styles["eyebrow"]}>YOUR JOURNEY</span>
+            <h2>Progress by level</h2>
+          </div>
+        </div>
+
+        <div className={styles["level-progress-grid"]}>
+          {levelProgress.map((level) => (
+            <article className={styles["level-progress-card"]} key={level.id}>
+              <div className={styles["level-progress-heading"]}>
+                <div>
+                  <strong>{level.code}</strong>
+                  <span>{level.title}</span>
+                </div>
+                {level.id === progress.currentLevelId && (
+                  <span className={styles["current-level-tag"]}>Current</span>
+                )}
+              </div>
+
+              <div
+                className={styles["progress-track"]}
+                role="progressbar"
+                aria-label={`${level.code} lesson progress`}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={level.percentage}
+              >
+                <span style={{ width: `${level.percentage}%` }} />
+              </div>
+
+              <div className={styles["level-progress-footer"]}>
+                <span>
+                  {level.completedCount} / {level.totalLessons} lessons
+                </span>
+                <strong>{level.percentage}%</strong>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
