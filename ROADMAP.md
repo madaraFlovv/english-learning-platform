@@ -16,7 +16,8 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 - [x] Topic page
 - [x] Lesson page
 - [x] Dynamic exercise page
-- [ ] Review and standardize data access
+- [ ] Review and standardize data access behind feature services
+- [ ] Keep mock data behind service boundaries so API implementations can replace them
 - [x] Add a mock progress service with a clear API
 - [x] Update progress after exercise completion
 - [x] Show updated progress on Roadmap and Topic pages
@@ -36,26 +37,29 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 - [ ] Add empty, loading and error states where relevant
 - [ ] Review responsive layout and accessibility
 
-## Phase 3 — Account experience
+## Phase 3 — Account and roadmap experience
 
 - [x] Build initial Account page UI
 - [x] Display mock learning statistics
 - [x] Separate current learning level from highest verified level
 - [x] Restrict current-level selection to the verified range
+- [x] Show all CEFR levels on Roadmap with locked-level previews
+- [ ] Add clear distinction between previewing a locked curriculum and accessing its lessons
 - [ ] Define streak and coin rules before implementing them
 - [ ] Connect account UI to the future user/progress data model
 
 ## Phase 4 — Backend and database
 
 - [ ] Select backend framework based on project needs and maintainability
-- [ ] Define API contract before wiring frontend requests
+- [ ] Define and version API contract before wiring frontend requests
+- [ ] Add shared HTTP client and normalized API error handling
 - [ ] Design relational database schema
 - [ ] Add migrations and seed data
 - [ ] Implement registration and login securely
 - [ ] Add authentication and authorization middleware
 - [ ] Add curriculum read endpoints
 - [ ] Add progress read/write endpoints
-- [ ] Replace mock services with API-backed services
+- [ ] Replace mock service implementations with API-backed implementations
 - [ ] Validate inputs and handle API errors consistently
 
 ## Phase 5 — AI Tutor
