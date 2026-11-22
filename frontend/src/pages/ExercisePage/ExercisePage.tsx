@@ -13,7 +13,7 @@ const normalizeAnswer = (answer: string) => {
 
 const ExercisePage = () => {
   const { lessonId } = useParams();
-  const { completeLesson, progress } = useProgress();
+  const { completeLesson, progress: userProgress } = useProgress();
 
   const lesson = learningData.lessons.find((item) => item.id === lessonId);
 
@@ -58,7 +58,7 @@ const ExercisePage = () => {
     ? learningData.levels.find((level) => level.id === lessonTopic.levelId)
     : undefined;
 
-  if (lessonLevel && !isLevelUnlocked(lessonLevel.id, progress.highestVerifiedLevelId)) {
+  if (lessonLevel && !isLevelUnlocked(lessonLevel.id, userProgress.highestVerifiedLevelId)) {
     return (
       <div className={styles["exercise-page"]}>
         <div className={styles["exercise-result"]}>
