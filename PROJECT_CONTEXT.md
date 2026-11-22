@@ -38,7 +38,7 @@ Partially implemented / prototype only:
 - Other lessons show an exercises-coming-soon state.
 - Login and registration do not authenticate users.
 - Progress starts from `data/mockProgress.ts` and is held in React Context while the app is running. Completing an exercise updates the shared in-memory progress state and the Roadmap/Topic pages reflect it. Progress is not persisted across reloads.
-- AI Tutor remains a placeholder page. Account has an overview, a demo profile card, learning-level selector and A1–C1 progress cards. Profile data is represented by a separate `UserProfile` model and currently comes from `data/mockUserProfile.ts`; per-level completion is derived from lesson progress. All displayed data is still mock/in-memory.
+- AI Tutor remains a placeholder page. Account has an overview, a demo profile card, learning-level selector and A1–C1 progress cards. It reads profile data through `profileService.ts`; progress state is initialized and updated through `progressService.ts`. Profile data is represented by a separate `UserProfile` model and currently comes from `data/mockUserProfile.ts`; per-level completion is derived from lesson progress. All displayed data is still mock/in-memory.
 
 Do not describe placeholder functionality as implemented functionality.
 
@@ -140,8 +140,8 @@ Core types are in `frontend/src/types/learning.ts`.
 Data sources:
 - `data/roadmap.ts` defines levels, topic seeds, topics and lessons. Its exported `learningData.exercises` is currently an empty array.
 - `data/learningData.ts` combines roadmap data with exercise question arrays. ExercisePage imports from this aggregator.
-- `data/mockProgress.ts` contains the current hardcoded sample user progress.
-- `data/mockUserProfile.ts` contains a demo-only `UserProfile`; it must be replaced by the authenticated user's profile returned by the backend.
+- `data/mockProgress.ts` contains the current hardcoded sample user progress, exposed through `services/progressService.ts`.
+- `data/mockUserProfile.ts` contains a demo-only `UserProfile`, exposed through `services/profileService.ts`; the service must later read the authenticated user's profile from the backend.
 - `data/exercises/lessons/presentSimple.ts` contains the current 8 exercise questions.
 - `data/exercises/lessons/lessonContent.ts` contains lesson content. Its current location is historical; avoid moving it without a deliberate refactor.
 
@@ -205,7 +205,7 @@ Follow these conventions unless there is a clear, discussed reason to change the
 - Never expose AI-provider API keys or other secrets in frontend code or Vite environment variables exposed to the browser.
 - Future AI requests should go through the backend, with input validation, rate limiting, cost controls and protection against prompt injection.
 - Progress should eventually be associated with an authenticated user and stored in a database.
-- Pages should call feature services rather than making direct HTTP requests. Keep mock implementations replaceable by API-backed services; keep pure business logic separate from data fetching.
+- Pages and context should call feature services rather than importing mock data directly or making direct HTTP requests. Keep mock implementations replaceable by API-backed services; keep pure business logic separate from data fetching.
 - The future API should expose versioned, typed contracts for auth, curriculum, profile and progress. Use a shared frontend HTTP client and normalized error handling when the backend is introduced.
 - Do not introduce localStorage as a substitute for the planned account-backed progress system without discussing the trade-off first.
 
