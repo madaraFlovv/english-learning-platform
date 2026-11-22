@@ -2,7 +2,7 @@ import styles from "./TopicPage.module.css";
 
 import { Link, useParams } from "react-router-dom";
 
-import { learningData } from "../../data/roadmap";
+import { getLevelById, getLessonsByTopic, getTopicById } from "../../services/curriculumService";
 import { useProgress } from "../../context/ProgressContext";
 import { isLevelUnlocked } from "../../services/levelAccessService";
 
@@ -10,7 +10,7 @@ const TopicPage = () => {
   const { progress } = useProgress();
   const { topicId } = useParams();
 
-  const topic = learningData.topics.find((item) => item.id === topicId);
+  const topic = topicId ? getTopicById(topicId) : undefined;
 
   if (!topic) {
     return (
@@ -22,7 +22,7 @@ const TopicPage = () => {
     );
   }
 
-  const level = learningData.levels.find((item) => item.id === topic.levelId);
+  const level = getLevelById(topic.levelId);
 
   if (level && !isLevelUnlocked(level.id, progress.highestVerifiedLevelId)) {
     return (
@@ -35,9 +35,7 @@ const TopicPage = () => {
     );
   }
 
-  const lessons = learningData.lessons
-    .filter((lesson) => lesson.topicId === topic.id)
-    .sort((a, b) => a.order - b.order);
+  const lessons = getLessonsByTopic(topic.id);
 
   const getLessonStatus = (lessonId: string) => {
     return (
