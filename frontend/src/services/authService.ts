@@ -1,9 +1,13 @@
-type RegisterData = {
+export type RegisterData = {
   email: string;
   password: string;
 };
 
-// Demo placeholder only. Never log credentials or pretend this creates an account.
-export const register = async (_data: RegisterData): Promise<void> => {
-  throw new Error("Registration is not connected to a backend yet.");
+export type RegisterResult = {
+  status: "not-configured";
 };
+
+// Demo placeholder only. This does not create an account or send credentials anywhere.
+export const register = async (_data: RegisterData): Promise<RegisterResult> => ({
+  status: "not-configured",
+});
