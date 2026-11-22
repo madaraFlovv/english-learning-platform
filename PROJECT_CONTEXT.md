@@ -22,7 +22,7 @@ The repository currently contains a frontend prototype. The app uses local TypeS
 Implemented:
 - Initial Placement Test flow with 20 typed questions spanning A1–C1, mixed choice/text-input answers, progress indicator and result breakdown.
 - Deterministic placement scoring service: a level is passed at 75% or more; the estimated level is the highest consecutive level passed from A1 upward.
-- Placement result updates the current starting level in the in-memory Progress Context and the test is reachable from `/placement-test` and the Roadmap header.
+- Placement result records the highest verified level in the in-memory Progress Context. The user can choose a current learning level up to that verified maximum from Account.
 - React application entry point and React Router configuration.
 - Shared application layout with sidebar navigation.
 - Roadmap page with level, topic and lesson progress derived from mock data.
@@ -38,7 +38,7 @@ Partially implemented / prototype only:
 - Other lessons show an exercises-coming-soon state.
 - Login and registration do not authenticate users.
 - Progress starts from `data/mockProgress.ts` and is held in React Context while the app is running. Completing an exercise updates the shared in-memory progress state and the Roadmap/Topic pages reflect it. Progress is not persisted across reloads.
-- AI Tutor and Account are placeholder pages.
+- AI Tutor remains a placeholder page. Account has an initial overview and learning-level selector backed by mock progress.
 
 Do not describe placeholder functionality as implemented functionality.
 
@@ -117,7 +117,7 @@ Routes are configured in `frontend/src/app/router.tsx` and rendered through `Rou
 | `/exercise/:lessonId` | ExercisePage | Exercises for a lesson |
 | `/placement-test` | PlacementTestPage | Initial level assessment and result |
 | `/ai` | PlaceholderPage | Future AI Tutor |
-| `/account` | PlaceholderPage | Future account |
+| `/account` | AccountPage | Mock overview, statistics and current learning-level selector |
 | `/login` | LoginPage | Login UI only |
 | `/register` | RegisterPage | Registration UI only |
 
@@ -133,7 +133,7 @@ Core types are in `frontend/src/types/learning.ts`.
 - `ExerciseQuestion` — belongs to a lesson through `lessonId`; currently discriminated into `multiple-choice` and `fill-in-the-blanks`.
 - `PlacementTestQuestion` — a placement question with CEFR level, prompt, answer type, correct answer and explanation.
 - `PlacementTestResult` — estimated CEFR level, total correct answers and per-level pass breakdown.
-- `UserProgress` — mock progress including current level, streak, coins, completed count and per-lesson progress.
+- `UserProgress` — mock progress including current learning level, highest verified level, streak, coins, completed count and per-lesson progress.
 - `UserProfile` — basic user profile type.
 - `LearningData` — levels, topics, lessons and exercises.
 
@@ -167,7 +167,7 @@ Data sources:
 - `PlacementTestPage` stores answers while the test is open and displays the final breakdown.
 - `placementService.ts` normalizes answers and requires at least 75% correct in each level band to pass it.
 - The estimate advances through consecutive passed bands and stops at the first failed band; this prevents a few advanced answers from compensating for missing foundations.
-- The result updates `currentLevelId` through `ProgressContext`. This is in-memory prototype state and resets on reload.
+- The result updates `highestVerifiedLevelId` through `recordVerifiedLevel`. The first result also sets the initial current level; later retakes can raise the verified maximum without changing the user's chosen current level. Account can change `currentLevelId` only up to the verified maximum. Both values are in-memory prototype state and reset on reload.
 - The test checks grammar and vocabulary only; it is an indicative placement estimate, not an official CEFR assessment.
 
 ### Exercises
