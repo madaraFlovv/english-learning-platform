@@ -1,12 +1,14 @@
 import type { ChangeEvent } from "react";
 
 import { useProgress } from "../../context/ProgressContext";
+import { mockUserProfile } from "../../data/mockUserProfile";
 import { lessons, levels, topics } from "../../data/roadmap";
 
 import styles from "./AccountPage.module.css";
 
 const AccountPage = () => {
   const { progress, setCurrentLevel } = useProgress();
+  const profile = mockUserProfile;
 
   const currentLevel = levels.find((level) => level.id === progress.currentLevelId);
   const verifiedLevel = levels.find(
@@ -65,7 +67,16 @@ const AccountPage = () => {
             <span className={styles["eyebrow"]}>OVERVIEW</span>
             <h2>Your learning overview</h2>
           </div>
-          <span className={styles["profile-mark"]}>E</span>
+          <div className={styles["profile-card"]}>
+            <div className={styles["profile-avatar"]} aria-hidden="true">
+              {profile.name.charAt(0).toUpperCase()}
+            </div>
+            <div className={styles["profile-details"]}>
+              <strong>{profile.name}</strong>
+              <span>{profile.email}</span>
+              <small>Demo profile</small>
+            </div>
+          </div>
         </div>
 
         <div className={styles["stats-grid"]}>
