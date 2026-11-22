@@ -16,7 +16,8 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 - [x] Topic page
 - [x] Lesson page
 - [x] Dynamic exercise page
-- [ ] Review and standardize data access behind feature services
+- [x] Route page-level curriculum reads through `curriculumService`
+- [ ] Route profile and progress reads/writes through feature services
 - [ ] Keep mock data behind service boundaries so API implementations can replace them
 - [x] Add a mock progress service with a clear API
 - [x] Update progress after exercise completion
