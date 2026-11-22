@@ -55,6 +55,7 @@ The current curriculum endpoints describe levels, topics and lessons. The produc
 | GET | /users/me/module-progress | Read the current user's module completion and assessment status |
 
 These are proposals, not implemented or finalized endpoints. A successful assessment may confirm prior knowledge and unlock the next module without requiring lesson completion. The backend must validate the attempt and record whether the module was completed through lessons or passed directly by assessment.
+
 ## Progress and placement
 
 | Method | Endpoint | Purpose |
