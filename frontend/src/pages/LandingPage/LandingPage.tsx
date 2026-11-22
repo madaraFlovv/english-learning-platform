@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import styles from "./LandingPage.module.css";
 
 import { Link } from "react-router-dom";
@@ -6,10 +8,33 @@ import { learningData } from "../../data/roadmap";
 import { useProgress } from "../../context/ProgressContext";
 
 const LandingPage = () => {
-  const { progress: mockProgress } = useProgress();
+  const { progress: mockProgress, setCurrentLevel } = useProgress();
+  const [selectedLevelId, setSelectedLevelId] = useState(mockProgress.currentLevelId);
+
+  useEffect(() => {
+    setSelectedLevelId(mockProgress.currentLevelId);
+  }, [mockProgress.currentLevelId]);
+
   const currentLevel = learningData.levels.find(
-    (level) => level.id === mockProgress.currentLevelId,
+    (level) => level.id === selectedLevelId,
   );
+  const verifiedLevel = learningData.levels.find(
+    (level) => level.id === mockProgress.highestVerifiedLevelId,
+  );
+  const maximumAvailableOrder = verifiedLevel?.order ?? learningData.levels[0]?.order ?? 1;
+  const isSelectedLevelLocked = (currentLevel?.order ?? 1) > maximumAvailableOrder;
+
+  const handleLevelSelect = (levelId: string) => {
+    const selectedLevel = learningData.levels.find((level) => level.id === levelId);
+
+    if (!selectedLevel) return;
+
+    setSelectedLevelId(levelId);
+
+    if (selectedLevel.order <= maximumAvailableOrder) {
+      setCurrentLevel(levelId);
+    }
+  };
 
   if (!currentLevel) {
     return <div>Learning level not found.</div>;
@@ -79,7 +104,9 @@ const LandingPage = () => {
 
     let status: "completed" | "in-progress" | "available" | "locked";
 
-    if (isCompleted) {
+    if (isSelectedLevelLocked) {
+      status = "locked";
+    } else if (isCompleted) {
       status = "completed";
     } else if (hasProgress) {
       status = "in-progress";
@@ -163,7 +190,19 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {currentLesson ? (
+        {isSelectedLevelLocked ? (
+          <div className={styles["current-lesson"]}>
+            <div className={styles["lesson-info"]}>
+              <span className={styles["lesson-level"]}>LEVEL PREVIEW</span>
+              <h3>Explore {currentLevel.code}</h3>
+              <p>This level is visible so you can preview the curriculum. Your lessons will become available after you unlock it.</p>
+              <Link to="/placement-test" className={styles["lesson-button"]}>
+                Check your level
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        ) : currentLesson ? (
           <div className={styles["current-lesson"]}>
             <div className={styles["lesson-info"]}>
               <div className={styles["lesson-meta"]}>
@@ -207,6 +246,38 @@ const LandingPage = () => {
       </section>
 
       <section className={styles["roadmap-section"]} id="roadmap">
+        <div className={styles["level-selector"]} aria-label="Choose roadmap level">
+          {learningData.levels.map((level) => {
+            const isLocked = level.order > maximumAvailableOrder;
+            const isSelected = level.id === currentLevel.id;
+
+            return (
+              <button
+                key={level.id}
+                type="button"
+                className={`${styles["level-tab"]} ${isSelected ? styles["selected-level-tab"] : ""} ${isLocked ? styles["locked-level-tab"] : ""}`}
+                onClick={() => handleLevelSelect(level.id)}
+                aria-pressed={isSelected}
+                aria-label={isLocked ? `Preview locked level ${level.code}` : `Select level ${level.code}`}
+              >
+                <span>{level.code}</span>
+                {isLocked && <span className={styles["level-lock-icon"]} aria-hidden="true">🔒</span>}
+              </button>
+            );
+          })}
+        </div>
+
+        {isSelectedLevelLocked && (
+          <div className={styles["locked-level-notice"]}>
+            <span className={styles["locked-level-notice-icon"]} aria-hidden="true">🔒</span>
+            <div>
+              <strong>{currentLevel.code} is a preview</strong>
+              <p>Explore the topics you will study at this level. Complete the placement test to unlock it.</p>
+            </div>
+            <Link to="/placement-test">Take the test <span aria-hidden="true">→</span></Link>
+          </div>
+        )}
+
         <div className={styles["roadmap-section-heading"]}>
           <div>
             <span className={styles["section-eyebrow"]}>YOUR CURRICULUM</span>
