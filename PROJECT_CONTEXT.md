@@ -38,7 +38,7 @@ Partially implemented / prototype only:
 - Other lessons show an exercises-coming-soon state.
 - Login and registration do not authenticate users.
 - Progress starts from `data/mockProgress.ts` and is held in React Context while the app is running. Completing an exercise updates the shared in-memory progress state and the Roadmap/Topic pages reflect it. Progress is not persisted across reloads.
-- AI Tutor remains a placeholder page. Account has an initial overview and learning-level selector backed by mock progress.
+- AI Tutor remains a placeholder page. Account has an initial overview, learning-level selector and A1–C1 progress cards. Per-level completion is derived from lesson progress and the roadmap relationships; the displayed data is still mock/in-memory.
 
 Do not describe placeholder functionality as implemented functionality.
 
@@ -117,7 +117,7 @@ Routes are configured in `frontend/src/app/router.tsx` and rendered through `Rou
 | `/exercise/:lessonId` | ExercisePage | Exercises for a lesson |
 | `/placement-test` | PlacementTestPage | Initial level assessment and result |
 | `/ai` | PlaceholderPage | Future AI Tutor |
-| `/account` | AccountPage | Mock overview, statistics and current learning-level selector |
+| `/account` | AccountPage | Mock overview, statistics, per-level progress and current learning-level selector |
 | `/login` | LoginPage | Login UI only |
 | `/register` | RegisterPage | Registration UI only |
 
@@ -133,7 +133,7 @@ Core types are in `frontend/src/types/learning.ts`.
 - `ExerciseQuestion` — belongs to a lesson through `lessonId`; currently discriminated into `multiple-choice` and `fill-in-the-blanks`.
 - `PlacementTestQuestion` — a placement question with CEFR level, prompt, answer type, correct answer and explanation.
 - `PlacementTestResult` — estimated CEFR level, total correct answers and per-level pass breakdown.
-- `UserProgress` — mock progress including current learning level, highest verified level, streak, coins, completed count and per-lesson progress.
+- `UserProgress` — mock progress including current learning level, highest verified level, streak, coins, completed count and per-lesson progress. Account derives its A1–C1 progress breakdown from `lessonProgress` by resolving lessons through their topics.
 - `UserProfile` — basic user profile type.
 - `LearningData` — levels, topics, lessons and exercises.
 
