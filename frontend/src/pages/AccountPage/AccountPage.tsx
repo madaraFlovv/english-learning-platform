@@ -1,3 +1,5 @@
+import type { ChangeEvent } from "react";
+
 import { useProgress } from "../../context/ProgressContext";
 import { levels } from "../../data/roadmap";
 
@@ -15,7 +17,7 @@ const AccountPage = () => {
     (level) => level.order <= (maximumAllowedLevel?.order ?? 1),
   );
 
-  const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleLevelChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setCurrentLevel(event.target.value);
   };
 
