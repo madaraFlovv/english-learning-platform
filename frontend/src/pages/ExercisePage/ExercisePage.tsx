@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 import { learningData } from "../../data/learningData";
 import { useProgress } from "../../context/ProgressContext";
+import { isLevelUnlocked } from "../../services/levelAccessService";
 
 import styles from "./ExercisePage.module.css";
 
@@ -12,7 +13,7 @@ const normalizeAnswer = (answer: string) => {
 
 const ExercisePage = () => {
   const { lessonId } = useParams();
-  const { completeLesson } = useProgress();
+  const { completeLesson, progress } = useProgress();
 
   const lesson = learningData.lessons.find((item) => item.id === lessonId);
 
@@ -45,6 +46,27 @@ const ExercisePage = () => {
 
           <Link to="/" className={styles["exercise-primary-button"]}>
             Back to roadmap
+            <span>→</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const lessonTopic = learningData.topics.find((topic) => topic.id === lesson.topicId);
+  const lessonLevel = lessonTopic
+    ? learningData.levels.find((level) => level.id === lessonTopic.levelId)
+    : undefined;
+
+  if (lessonLevel && !isLevelUnlocked(lessonLevel.id, progress.highestVerifiedLevelId)) {
+    return (
+      <div className={styles["exercise-page"]}>
+        <div className={styles["exercise-result"]}>
+          <span className={styles["section-eyebrow"]}>LEVEL LOCKED</span>
+          <h1>This lesson is not unlocked yet</h1>
+          <p>Complete the placement test to access {lessonLevel.code} lessons.</p>
+          <Link to="/placement-test" className={styles["exercise-primary-button"]}>
+            Take placement test
             <span>→</span>
           </Link>
         </div>
