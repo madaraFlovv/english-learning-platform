@@ -4,9 +4,12 @@ import { Link, useParams } from "react-router-dom";
 
 import { learningData } from "../../data/roadmap";
 import { lessonContent } from "../../data/exercises/lessons/lessonContent";
+import { useProgress } from "../../context/ProgressContext";
+import { isLevelUnlocked } from "../../services/levelAccessService";
 
 const LessonPage = () => {
   const { lessonId } = useParams();
+  const { progress } = useProgress();
 
   const lesson = learningData.lessons.find((item) => item.id === lessonId);
 
@@ -25,6 +28,17 @@ const LessonPage = () => {
   const level = topic
     ? learningData.levels.find((item) => item.id === topic.levelId)
     : undefined;
+
+  if (level && !isLevelUnlocked(level.id, progress.highestVerifiedLevelId)) {
+    return (
+      <div className={styles["lesson-page"]}>
+        <h1>Level locked</h1>
+        <p>This lesson is part of {level.code}. Complete the placement test to unlock it.</p>
+        <Link to="/placement-test">Take placement test</Link>
+        <Link to="/">Back to roadmap</Link>
+      </div>
+    );
+  }
 
   const content = lessonContent[lesson.id] ?? [];
 
