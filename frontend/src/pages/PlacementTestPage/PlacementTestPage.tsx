@@ -9,7 +9,7 @@ import type { PlacementTestResult } from "../../types/placement";
 import styles from "./PlacementTestPage.module.css";
 
 const PlacementTestPage = () => {
-  const { setCurrentLevel } = useProgress();
+  const { recordVerifiedLevel } = useProgress();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<PlacementTestResult | null>(null);
@@ -40,7 +40,7 @@ const PlacementTestPage = () => {
 
     if (currentIndex === placementQuestions.length - 1) {
       const testResult = evaluatePlacementTest(placementQuestions, answers);
-      setCurrentLevel(testResult.levelId);
+      recordVerifiedLevel(testResult.levelId);
       setResult(testResult);
       return;
     }
