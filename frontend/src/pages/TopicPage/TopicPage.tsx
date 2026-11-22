@@ -4,9 +4,10 @@ import { Link, useParams } from "react-router-dom";
 
 import { learningData } from "../../data/roadmap";
 import { useProgress } from "../../context/ProgressContext";
+import { isLevelUnlocked } from "../../services/levelAccessService";
 
 const TopicPage = () => {
-  const { progress: mockProgress } = useProgress();
+  const { progress } = useProgress();
   const { topicId } = useParams();
 
   const topic = learningData.topics.find((item) => item.id === topicId);
@@ -23,13 +24,24 @@ const TopicPage = () => {
 
   const level = learningData.levels.find((item) => item.id === topic.levelId);
 
+  if (level && !isLevelUnlocked(level.id, progress.highestVerifiedLevelId)) {
+    return (
+      <div className={styles["topic-page"]}>
+        <h1>Level locked</h1>
+        <p>This topic is part of {level.code}. Complete the placement test to unlock this level.</p>
+        <Link to="/placement-test">Take placement test</Link>
+        <Link to="/">Back to roadmap</Link>
+      </div>
+    );
+  }
+
   const lessons = learningData.lessons
     .filter((lesson) => lesson.topicId === topic.id)
     .sort((a, b) => a.order - b.order);
 
   const getLessonStatus = (lessonId: string) => {
     return (
-      mockProgress.lessonProgress.find(
+      progress.lessonProgress.find(
         (progress) => progress.lessonId === lessonId,
       )?.status ?? "not-started"
     );
