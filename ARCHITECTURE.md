@@ -206,7 +206,7 @@ Rules for the transition:
 - Backend authorization must validate ownership of progress and profile records. Frontend route guards and locked UI are only presentation, not security.
 - Replace mock service implementations behind stable feature-service interfaces; avoid changing page components just because the data source changes.
 
-Do not add an unused HTTP client or fake API endpoints before the backend contract is agreed. The current prototype can be prepared through service boundaries and a documented contract first.
+The shared HTTP client now exists as infrastructure, but feature services intentionally remain on mock adapters until real backend endpoints are available. Do not add fake endpoints or send credentials to a non-existent server.
 
 
 ## Curriculum service boundary
@@ -214,3 +214,8 @@ Do not add an unused HTTP client or fake API endpoints before the backend contra
 Pages and feature components read curriculum through `services/curriculumService.ts`, not by importing static data modules directly. The current implementation is synchronous and backed by local mock curriculum data. This centralizes the data source without introducing an unused HTTP client.
 
 When the backend is ready, the curriculum service will become asynchronous. Add a query/cache layer (for example TanStack Query) at that stage to manage loading, caching, refetching and errors consistently.
+
+
+## Shared HTTP client foundation
+
+The frontend/src/services/apiClient.ts module provides the single apiRequest<T>() entry point for future HTTP calls. It reads the public VITE_API_BASE_URL setting (default /api/v1), sends browser credentials with requests by default, parses JSON responses, handles 204 No Content, and normalizes API/network failures into ApiError (status, code, message, details). It contains no secrets and is not yet used by mock feature services. Add endpoint-specific methods only when the backend endpoints are implemented.
