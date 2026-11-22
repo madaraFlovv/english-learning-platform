@@ -6,6 +6,7 @@ import {
 } from "react";
 
 import { mockProgress } from "../data/mockProgress";
+import { levels } from "../data/roadmap";
 import { completeLessonProgress } from "../services/progressService";
 import type { UserProgress } from "../types/learning";
 
@@ -13,6 +14,7 @@ type ProgressContextValue = {
   progress: UserProgress;
   completeLesson: (lessonId: string, score: number) => void;
   setCurrentLevel: (levelId: string) => void;
+  recordVerifiedLevel: (levelId: string) => void;
 };
 
 const ProgressContext = createContext<ProgressContextValue | null>(null);
@@ -25,10 +27,47 @@ export const ProgressProvider = ({ children }: ProgressProviderProps) => {
   const [progress, setProgress] = useState<UserProgress>(mockProgress);
 
   const setCurrentLevel = (levelId: string) => {
-    setProgress((currentProgress) => ({
-      ...currentProgress,
-      currentLevelId: levelId,
-    }));
+    const requestedLevel = levels.find((level) => level.id === levelId);
+
+    if (!requestedLevel) return;
+
+    setProgress((currentProgress) => {
+      const verifiedLevel = levels.find(
+        (level) => level.id === currentProgress.highestVerifiedLevelId,
+      );
+      const maximumAllowedOrder = verifiedLevel?.order ?? levels[0]?.order ?? 1;
+
+      if (requestedLevel.order > maximumAllowedOrder) return currentProgress;
+
+      return {
+        ...currentProgress,
+        currentLevelId: levelId,
+      };
+    });
+  };
+
+  const recordVerifiedLevel = (levelId: string) => {
+    const requestedLevel = levels.find((level) => level.id === levelId);
+
+    if (!requestedLevel) return;
+
+    setProgress((currentProgress) => {
+      const currentVerifiedLevel = levels.find(
+        (level) => level.id === currentProgress.highestVerifiedLevelId,
+      );
+
+      if (currentVerifiedLevel && requestedLevel.order <= currentVerifiedLevel.order) {
+        return currentProgress;
+      }
+
+      return {
+        ...currentProgress,
+        highestVerifiedLevelId: levelId,
+        currentLevelId: currentVerifiedLevel
+          ? currentProgress.currentLevelId
+          : levelId,
+      };
+    });
   };
 
   const completeLesson = (lessonId: string, score: number) => {
@@ -38,7 +77,9 @@ export const ProgressProvider = ({ children }: ProgressProviderProps) => {
   };
 
   return (
-    <ProgressContext.Provider value={{ progress, completeLesson, setCurrentLevel }}>
+    <ProgressContext.Provider
+      value={{ progress, completeLesson, setCurrentLevel, recordVerifiedLevel }}
+    >
       {children}
     </ProgressContext.Provider>
   );
