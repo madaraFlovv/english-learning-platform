@@ -38,8 +38,10 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 
 ## Phase 3 — Account experience
 
-- [ ] Build Account page UI
-- [ ] Display profile and learning statistics
+- [x] Build initial Account page UI
+- [x] Display mock learning statistics
+- [x] Separate current learning level from highest verified level
+- [x] Restrict current-level selection to the verified range
 - [ ] Define streak and coin rules before implementing them
 - [ ] Connect account UI to the future user/progress data model
 
@@ -79,11 +81,11 @@ Build a coherent, understandable foundation before adding infrastructure. Comple
 
 ## Current next step
 
-1. Verify the new Placement Test in the browser and run the production build and lint checks.
-2. Add automated tests for the deterministic placement scoring service.
-3. Improve question quality and coverage, then add more skill types only when there is suitable content.
+1. Verify the verified/current level flow and Account selector in the browser; run the production build and lint checks.
+2. Add automated tests for placement scoring and level-selection rules.
+3. Improve Account layout and content based on visual review.
 4. Build onboarding so a new user completes registration, takes the placement test and lands on the recommended Roadmap level.
 5. Expand A1 learning content with Russian explanations and English examples plus translations.
 6. Revisit subtle UI animation and typewriter effects after the core learning flow is stable.
 
-The placement result currently updates mock progress in React Context only. It resets on reload and will later need to be associated with the authenticated user on the backend.
+The verified maximum, current learning level and lesson progress currently live in React Context only. They reset on reload and will later need to be associated with the authenticated user on the backend.
