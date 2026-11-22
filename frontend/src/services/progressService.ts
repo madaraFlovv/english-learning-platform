@@ -1,4 +1,57 @@
+import { mockProgress } from "../data/mockProgress";
+import { getLevels } from "./curriculumService";
 import type { LessonProgress, UserProgress } from "../types/learning";
+
+// Mock data adapter. Replace these reads with API requests when the backend is ready.
+export const getProgress = (): UserProgress => mockProgress;
+
+export const selectCurrentLevelProgress = (
+  currentProgress: UserProgress,
+  levelId: string,
+): UserProgress => {
+  const levels = getLevels();
+  const requestedLevel = levels.find((level) => level.id === levelId);
+
+  if (!requestedLevel) return currentProgress;
+
+  const verifiedLevel = levels.find(
+    (level) => level.id === currentProgress.highestVerifiedLevelId,
+  );
+  const maximumAllowedOrder = verifiedLevel?.order ?? levels[0]?.order ?? 1;
+
+  if (requestedLevel.order > maximumAllowedOrder) return currentProgress;
+
+  return {
+    ...currentProgress,
+    currentLevelId: levelId,
+  };
+};
+
+export const recordVerifiedLevelProgress = (
+  currentProgress: UserProgress,
+  levelId: string,
+): UserProgress => {
+  const levels = getLevels();
+  const requestedLevel = levels.find((level) => level.id === levelId);
+
+  if (!requestedLevel) return currentProgress;
+
+  const currentVerifiedLevel = levels.find(
+    (level) => level.id === currentProgress.highestVerifiedLevelId,
+  );
+
+  if (currentVerifiedLevel && requestedLevel.order <= currentVerifiedLevel.order) {
+    return currentProgress;
+  }
+
+  return {
+    ...currentProgress,
+    highestVerifiedLevelId: levelId,
+    currentLevelId: currentVerifiedLevel
+      ? currentProgress.currentLevelId
+      : levelId,
+  };
+};
 
 export const completeLessonProgress = (
   currentProgress: UserProgress,
