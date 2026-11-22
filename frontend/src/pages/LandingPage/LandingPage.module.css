@@ -547,3 +547,131 @@
 .placement-link:hover{color:var(--color-primary-hover)}
 .placement-link span{font-size:16px;transition:transform .15s ease}
 .placement-link:hover span{transform:translateX(3px)}
+
+
+/* Level navigation and locked previews */
+
+.level-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.level-tab {
+  display: inline-flex;
+  min-width: 72px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.level-tab:hover {
+  border-color: var(--color-primary-border);
+  color: var(--color-text-primary);
+}
+
+.selected-level-tab {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+.locked-level-tab {
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+}
+
+.level-lock-icon {
+  font-size: 10px;
+}
+
+.locked-level-notice {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 17px;
+  border: 1px solid var(--color-border);
+  border-radius: 15px;
+  background: var(--color-surface-soft);
+}
+
+.locked-level-notice-icon {
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.locked-level-notice > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.locked-level-notice strong {
+  color: var(--color-text-primary);
+  font-size: 12px;
+}
+
+.locked-level-notice p {
+  margin: 4px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.locked-level-notice a {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.locked-level-notice a:hover {
+  color: var(--color-primary-hover);
+}
+
+.locked-topic {
+  cursor: default;
+}
+
+.locked-topic:hover {
+  transform: none;
+  border-color: var(--color-border);
+  background: var(--color-surface-soft);
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 520px) {
+  .level-selector {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .level-tab {
+    min-width: 0;
+    padding: 10px 5px;
+  }
+
+  .locked-level-notice {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .locked-level-notice > div {
+    flex-basis: calc(100% - 40px);
+  }
+
+  .locked-level-notice a {
+    margin-left: 31px;
+  }
+}
