@@ -2,13 +2,14 @@ import type { ChangeEvent } from "react";
 
 import { useProgress } from "../../context/ProgressContext";
 import { mockUserProfile } from "../../data/mockUserProfile";
-import { lessons, levels, topics } from "../../data/roadmap";
+import { getLearningData } from "../../services/curriculumService";
 
 import styles from "./AccountPage.module.css";
 
 const AccountPage = () => {
   const { progress, setCurrentLevel } = useProgress();
   const profile = mockUserProfile;
+  const { levels, topics, lessons } = getLearningData();
 
   const currentLevel = levels.find((level) => level.id === progress.currentLevelId);
   const verifiedLevel = levels.find(
