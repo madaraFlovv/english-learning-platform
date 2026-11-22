@@ -1,5 +1,3 @@
-import.meta.env;
-
 export type ApiErrorDetails = unknown[];
 
 export class ApiError extends Error {
