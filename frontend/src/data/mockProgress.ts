@@ -3,6 +3,7 @@ import type { UserProgress } from "../types/learning";
 export const mockProgress: UserProgress = {
   userId: "mock-user-1",
   currentLevelId: "a1",
+  highestVerifiedLevelId: null,
   streakDays: 4,
   coins: 0,
   completedLessonsCount: 3,
