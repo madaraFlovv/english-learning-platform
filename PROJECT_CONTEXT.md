@@ -231,3 +231,7 @@ When asked to continue development, first summarize the relevant current state a
 - The current service is a synchronous mock adapter over local `data/learningData.ts`.
 - Pages should not import static roadmap data directly. The service is the intended seam for replacing local data with API-backed queries.
 - This is not yet an HTTP API implementation; backend integration will require async query state and centralized loading/error handling.
+
+## New product decision: module-based learning path (planned)
+
+The future learning hierarchy should be Level → Module → Lesson → Exercise. Each module has an end-of-module assessment. Learners can either complete the lessons or attempt the assessment immediately; passing demonstrates prior knowledge and unlocks the next module. Store the completion method separately (lesson-based completion vs assessment pass), along with the score and completion timestamp. This is a planned redesign, not current functionality. The current Topic-based curriculum remains authoritative until the migration is implemented. Update the API contract and database model when backend design begins.
