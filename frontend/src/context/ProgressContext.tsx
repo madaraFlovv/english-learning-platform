@@ -5,9 +5,12 @@ import {
   type ReactNode,
 } from "react";
 
-import { mockProgress } from "../data/mockProgress";
-import { getLevels } from "../services/curriculumService";
-import { completeLessonProgress } from "../services/progressService";
+import {
+  completeLessonProgress,
+  getProgress,
+  recordVerifiedLevelProgress,
+  selectCurrentLevelProgress,
+} from "../services/progressService";
 import type { UserProgress } from "../types/learning";
 
 type ProgressContextValue = {
@@ -24,51 +27,18 @@ type ProgressProviderProps = {
 };
 
 export const ProgressProvider = ({ children }: ProgressProviderProps) => {
-  const [progress, setProgress] = useState<UserProgress>(mockProgress);
-  const levels = getLevels();
+  const [progress, setProgress] = useState<UserProgress>(getProgress);
 
   const setCurrentLevel = (levelId: string) => {
-    const requestedLevel = levels.find((level) => level.id === levelId);
-
-    if (!requestedLevel) return;
-
-    setProgress((currentProgress) => {
-      const verifiedLevel = levels.find(
-        (level) => level.id === currentProgress.highestVerifiedLevelId,
-      );
-      const maximumAllowedOrder = verifiedLevel?.order ?? levels[0]?.order ?? 1;
-
-      if (requestedLevel.order > maximumAllowedOrder) return currentProgress;
-
-      return {
-        ...currentProgress,
-        currentLevelId: levelId,
-      };
-    });
+    setProgress((currentProgress) =>
+      selectCurrentLevelProgress(currentProgress, levelId),
+    );
   };
 
   const recordVerifiedLevel = (levelId: string) => {
-    const requestedLevel = levels.find((level) => level.id === levelId);
-
-    if (!requestedLevel) return;
-
-    setProgress((currentProgress) => {
-      const currentVerifiedLevel = levels.find(
-        (level) => level.id === currentProgress.highestVerifiedLevelId,
-      );
-
-      if (currentVerifiedLevel && requestedLevel.order <= currentVerifiedLevel.order) {
-        return currentProgress;
-      }
-
-      return {
-        ...currentProgress,
-        highestVerifiedLevelId: levelId,
-        currentLevelId: currentVerifiedLevel
-          ? currentProgress.currentLevelId
-          : levelId,
-      };
-    });
+    setProgress((currentProgress) =>
+      recordVerifiedLevelProgress(currentProgress, levelId),
+    );
   };
 
   const completeLesson = (lessonId: string, score: number) => {
