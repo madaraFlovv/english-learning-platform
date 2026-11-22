@@ -223,3 +223,11 @@ Before making changes:
 9. Do not claim a feature is complete merely because its page exists.
 
 When asked to continue development, first summarize the relevant current state and propose the next small implementation step. Avoid generating the entire application in one response.
+
+
+## Curriculum data access update
+
+- Page-level curriculum reads go through `services/curriculumService.ts`.
+- The current service is a synchronous mock adapter over local `data/learningData.ts`.
+- Pages should not import static roadmap data directly. The service is the intended seam for replacing local data with API-backed queries.
+- This is not yet an HTTP API implementation; backend integration will require async query state and centralized loading/error handling.
