@@ -72,6 +72,7 @@ Last reviewed against GitHub branch: `frontend` (2026-11-22).
 - `frontend/src/services/placementService.ts` — deterministic placement scoring.
 - `frontend/src/services/authService.ts` — explicit demo registration result; it does not log or transmit credentials.
 - `frontend/src/services/levelAccessService.ts` — shared frontend rule for checking whether a level is unlocked.
+- `frontend/src/services/curriculumService.ts` — centralized mock curriculum access used by pages and context.
 - `API_CONTRACT.md` — draft API endpoint and security contract; no API is implemented yet.
 
 ## Known limitations / things to verify
